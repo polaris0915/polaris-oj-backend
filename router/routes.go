@@ -2,7 +2,7 @@ package router
 
 import (
 	"polaris-oj-backend/constant"
-	"polaris-oj-backend/controller"
+	usercontroller "polaris-oj-backend/controller/user_controller"
 	"polaris-oj-backend/middleware"
 
 	"github.com/gin-contrib/sessions"
@@ -38,7 +38,7 @@ func Router() *gin.Engine {
 	api := r.Group("/api")
 	// get组
 	get := api.Group("/get")
-	get.GET("/user/login", controller.GUserController.GetLoginUser)
+	get.GET("/user/login", usercontroller.GUserController.GetLoginUser)
 	// -----------------------私有组的api----------------------
 	// 用户组
 	user := api.Group("/user")

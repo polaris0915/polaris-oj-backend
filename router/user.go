@@ -1,14 +1,15 @@
 package router
 
 import (
+	usercontroller "polaris-oj-backend/controller/user_controller"
+
 	"github.com/gin-gonic/gin"
-	"polaris-oj-backend/controller"
 )
 
 // 定义用户所有的路由
 func UserAdd(group *gin.RouterGroup) {
-	group.POST("/login", controller.GUserController.Login)
-	group.POST("/register", controller.GUserController.Register)
-	group.POST("/my", controller.GUserController.UpdateMyUser)
-	group.POST("/logout", controller.GUserController.UserLogout)
+	group.POST("/login", usercontroller.GUserController.Login)
+	group.POST("/register", usercontroller.GUserController.Register)
+	group.POST("/my", usercontroller.GUserController.UpdateMyUser)
+	group.POST("/logout", usercontroller.GUserController.UserLogout)
 }

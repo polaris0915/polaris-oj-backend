@@ -80,9 +80,8 @@ definitions:
     type: object
   user_dto.UserLoginRequest:
     properties:
-      identity:
-        type: string
       userAccount:
+        description: Identity     string `json:"identity,omitempty"`
         type: string
       userPassword:
         type: string

@@ -8,7 +8,7 @@ import (
 )
 
 type UserLoginRequest struct {
-	Identity     string `json:"identity,omitempty"`
+	// Identity     string `json:"identity,omitempty"`
 	UserAccount  string `json:"userAccount" validate:"required"`
 	UserPassword string `json:"userPassword" validate:"required"`
 }

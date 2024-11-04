@@ -530,10 +530,8 @@ const docTemplate = `{
                 "userPassword"
             ],
             "properties": {
-                "identity": {
-                    "type": "string"
-                },
                 "userAccount": {
+                    "description": "Identity     string ` + "`" + `json:\"identity,omitempty\"` + "`" + `",
                     "type": "string"
                 },
                 "userPassword": {

@@ -1,14 +1,15 @@
 package router
 
 import (
+	questioncontroller "polaris-oj-backend/controller/question_controller"
+
 	"github.com/gin-gonic/gin"
-	"polaris-oj-backend/controller"
 )
 
 // 定义用户所有的路由
 func QuestionAdd(group *gin.RouterGroup) {
-	group.POST("/add", controller.GQuestionController.AddQuestion)
-	group.POST("/update", controller.GQuestionController.UpdateQuestion)
-	group.POST("/delete", controller.GQuestionController.DeleteQuestion)
-	group.GET("/get", controller.GQuestionController.GetQuestionById)
+	group.POST("/add", questioncontroller.GQuestionController.AddQuestion)
+	group.POST("/update", questioncontroller.GQuestionController.UpdateQuestion)
+	group.POST("/delete", questioncontroller.GQuestionController.DeleteQuestion)
+	group.GET("/get", questioncontroller.GQuestionController.GetQuestionById)
 }
