@@ -318,7 +318,6 @@ func (uc *UserController) UserLogout(c *gin.Context) {
 		response.Message = "退出失败"
 	}
 
-	// test for git
 	response.Code = constant.SUCCESS.Code
 	response.Data = true
 	response.Message = ""

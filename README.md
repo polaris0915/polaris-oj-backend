@@ -1,8 +1,6 @@
 # 迭代内容：
 
-1. 将v1.0版本中的BaseResponse做了简单的抽象以及封装
-2. 引入defer优化响应
-3. 引入DTO层以及VO层
+1. 在vscode中使用git
 
 
 
