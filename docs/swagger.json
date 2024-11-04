@@ -1,0 +1,584 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/get/user/login": {
+            "get": {
+                "tags": [
+                    "公共方法",
+                    "用户"
+                ],
+                "summary": "获取当前登录用户",
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/question/add": {
+            "post": {
+                "tags": [
+                    "私有方法",
+                    "问题"
+                ],
+                "summary": "问题添加",
+                "parameters": [
+                    {
+                        "description": "add question info",
+                        "name": "addInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/question_dto.QuestionAddRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/question/delete": {
+            "post": {
+                "tags": [
+                    "私有方法",
+                    "问题"
+                ],
+                "summary": "问题删除",
+                "parameters": [
+                    {
+                        "description": "delete question info",
+                        "name": "deleteInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/common.DeleteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/question/get": {
+            "get": {
+                "tags": [
+                    "私有方法",
+                    "问题"
+                ],
+                "summary": "通过问题的Identity获取问题详情",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "identity",
+                        "name": "Identity",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/question/update": {
+            "post": {
+                "tags": [
+                    "私有方法",
+                    "问题"
+                ],
+                "summary": "问题修改",
+                "parameters": [
+                    {
+                        "description": "update question info",
+                        "name": "updateInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/question_dto.QuestionUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/login": {
+            "post": {
+                "tags": [
+                    "公共方法",
+                    "用户"
+                ],
+                "summary": "用户登陆",
+                "parameters": [
+                    {
+                        "description": "user login infos",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_dto.UserLoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/logout": {
+            "post": {
+                "tags": [
+                    "私有方法",
+                    "用户"
+                ],
+                "summary": "用户退出登录",
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/my": {
+            "post": {
+                "tags": [
+                    "私有方法",
+                    "用户"
+                ],
+                "summary": "用户更新自己的数据",
+                "parameters": [
+                    {
+                        "description": "user login infos",
+                        "name": "updateInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_dto.UserUpdateMyUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/register": {
+            "post": {
+                "tags": [
+                    "公共方法",
+                    "用户"
+                ],
+                "summary": "用户注册",
+                "parameters": [
+                    {
+                        "description": "user login infos",
+                        "name": "login",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user_dto.UserRegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "common.DeleteRequest": {
+            "type": "object",
+            "required": [
+                "identity"
+            ],
+            "properties": {
+                "identity": {
+                    "type": "string"
+                }
+            }
+        },
+        "judgecase.JudgeCase": {
+            "type": "object",
+            "properties": {
+                "input": {
+                    "type": "string"
+                },
+                "output": {
+                    "type": "string"
+                }
+            }
+        },
+        "judgeconfig.JudgeConfig": {
+            "type": "object",
+            "properties": {
+                "memoryLimit": {
+                    "type": "integer"
+                },
+                "stackLimit": {
+                    "type": "integer"
+                },
+                "timeLimit": {
+                    "type": "integer"
+                }
+            }
+        },
+        "question_dto.QuestionAddRequest": {
+            "type": "object",
+            "required": [
+                "answer",
+                "content",
+                "judgeCase",
+                "judgeConfig",
+                "title"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "identity": {
+                    "type": "string"
+                },
+                "judgeCase": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/judgecase.JudgeCase"
+                    }
+                },
+                "judgeConfig": {
+                    "$ref": "#/definitions/judgeconfig.JudgeConfig"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "question_dto.QuestionUpdateRequest": {
+            "type": "object",
+            "required": [
+                "answer",
+                "content",
+                "identity",
+                "judgeCase",
+                "judgeConfig",
+                "tags",
+                "title"
+            ],
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "identity": {
+                    "type": "string"
+                },
+                "judgeCase": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/judgecase.JudgeCase"
+                    }
+                },
+                "judgeConfig": {
+                    "$ref": "#/definitions/judgeconfig.JudgeConfig"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "user_dto.UserLoginRequest": {
+            "type": "object",
+            "required": [
+                "userAccount",
+                "userPassword"
+            ],
+            "properties": {
+                "identity": {
+                    "type": "string"
+                },
+                "userAccount": {
+                    "type": "string"
+                },
+                "userPassword": {
+                    "type": "string"
+                }
+            }
+        },
+        "user_dto.UserRegisterRequest": {
+            "type": "object",
+            "required": [
+                "checkPassword",
+                "userAccount",
+                "userPassword"
+            ],
+            "properties": {
+                "checkPassword": {
+                    "type": "string"
+                },
+                "userAccount": {
+                    "type": "string"
+                },
+                "userPassword": {
+                    "type": "string"
+                }
+            }
+        },
+        "user_dto.UserUpdateMyUserRequest": {
+            "type": "object",
+            "properties": {
+                "userAvatar": {
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "userProfile": {
+                    "type": "string"
+                }
+            }
+        },
+        "vo.BaseResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "响应码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "接口，表示具体信息"
+                },
+                "err": {},
+                "message": {
+                    "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
