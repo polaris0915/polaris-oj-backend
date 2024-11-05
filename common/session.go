@@ -2,7 +2,7 @@ package common
 
 import (
 	"errors"
-	"polaris-oj-backend/constant"
+	"polaris-oj-backend/models/enums/userrole_enum"
 	"polaris-oj-backend/utils"
 
 	"github.com/gin-contrib/sessions"
@@ -33,7 +33,7 @@ func ParseUserInfoByToken(token interface{}) interface{} {
 }
 
 func GetLoginUser(session sessions.Session) (*utils.Claims, error) {
-	stringToken := session.Get(constant.USER_LOGIN_STATE) // 获取用户
+	stringToken := session.Get(userrole_enum.USER_LOGIN_STATE) // 获取用户
 	userInfo, ok := ParseUserInfoByToken(stringToken).(*utils.Claims)
 	if !ok {
 		return nil, errors.New("未登录或用户信息过期，请重新登录")

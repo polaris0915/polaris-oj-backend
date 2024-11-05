@@ -13,6 +13,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"polaris-oj-backend/models/enums/userrole_enum"
 )
 
 // Login
@@ -65,8 +66,8 @@ func (uc *UserController) Login(c *gin.Context) {
 	// ================controller特殊的业务需求===================
 	// 设置cookies
 	session := sessions.Default(c)
-	response.Err = common.SetCookies(session, constant.USER_LOGIN_STATE, token)
-	if response.Err = common.SetCookies(session, constant.USER_LOGIN_STATE, token); response.Err != nil {
+	response.Err = common.SetCookies(session, userrole_enum.USER_LOGIN_STATE, token)
+	if response.Err = common.SetCookies(session, userrole_enum.USER_LOGIN_STATE, token); response.Err != nil {
 		response.Code = constant.SYSTEM_ERROR.Code
 		response.Data = nil
 		response.Message = response.Err.Error()

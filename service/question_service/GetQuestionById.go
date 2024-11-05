@@ -4,11 +4,11 @@ import (
 	"errors"
 	"github.com/gin-contrib/sessions"
 	"polaris-oj-backend/common"
-	"polaris-oj-backend/constant"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 	"polaris-oj-backend/utils"
 
 	"gorm.io/gorm"
+	"polaris-oj-backend/models/enums/userrole_enum"
 )
 
 // TODO unfinished: 通过id获取问题详情
@@ -32,7 +32,7 @@ func (s *QuestionService) GetQuestionById(session sessions.Session, question *al
 	// fmt.Printf("question: %+v\n", question)
 
 	// 只有创建题目的作者以及管理员才可以查询到问题的详情
-	if userInfo.UserRole != constant.ADMIN_ROLE && userInfo.Identity != question.User.Identity {
+	if userInfo.UserRole != userrole_enum.ADMIN_ROLE && userInfo.Identity != question.User.Identity {
 		return errors.New("权限不足")
 	}
 	return nil

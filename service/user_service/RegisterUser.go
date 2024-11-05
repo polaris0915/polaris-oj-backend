@@ -2,7 +2,7 @@ package userservice
 
 import (
 	"errors"
-	"polaris-oj-backend/constant"
+	"polaris-oj-backend/models/enums/userrole_enum"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 	"polaris-oj-backend/utils"
 )
@@ -32,7 +32,7 @@ func (s *UserService) RegisterUser(user *allModels.User) error {
 	}
 	user.Identity = utils.GetUUID()
 	user.UserPassword = utils.GetMd5(user.UserPassword)
-	user.UserRole = constant.DEFAULT_ROLE
+	user.UserRole = userrole_enum.DEFAULT_ROLE
 
 	if err := s.db.Create(user).Error; err != nil {
 		return errors.New("创建用户失败")

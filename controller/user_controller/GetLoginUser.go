@@ -12,6 +12,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"polaris-oj-backend/models/enums/userrole_enum"
 )
 
 // GetLoginUser
@@ -34,8 +35,8 @@ func (uc *UserController) GetLoginUser(c *gin.Context) {
 
 	// ================controller特殊的业务需求===================
 	// 先尝试获取请求头中的token，没有的话就是未登录
-	_, response.Err = c.Cookie(constant.USER_LOGIN_STATE)
-	if _, response.Err = c.Cookie(constant.USER_LOGIN_STATE); response.Err != nil {
+	_, response.Err = c.Cookie(userrole_enum.USER_LOGIN_STATE)
+	if _, response.Err = c.Cookie(userrole_enum.USER_LOGIN_STATE); response.Err != nil {
 		response.Code = constant.NOT_LOGIN_ERROR.Code
 		response.Data = nil
 		response.Message = errors.New("未登录").Error()

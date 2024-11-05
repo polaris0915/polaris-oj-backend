@@ -13,6 +13,7 @@ import (
 
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"polaris-oj-backend/models/enums/userrole_enum"
 )
 
 func Router() *gin.Engine {
@@ -31,7 +32,7 @@ func Router() *gin.Engine {
 	// store.Options(sessions.Options{
 	// 	MaxAge: int(constant.ValidTime) * 60, // 设置为 3600 秒（即 1 小时）
 	// })
-	r.Use(sessions.Sessions(constant.USER_LOGIN_STATE, store))
+	r.Use(sessions.Sessions(userrole_enum.USER_LOGIN_STATE, store))
 
 	// 路由规则
 	//  -----------------------公共组的api----------------------

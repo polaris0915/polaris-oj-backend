@@ -1,4 +1,4 @@
-package constant
+package userrole_enum
 
 var (
 	DEFAULT_ROLE = "user"
