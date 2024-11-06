@@ -1,4 +1,4 @@
-package usercontroller
+package user_controller
 
 import userservice "polaris-oj-backend/service/user_service"
 

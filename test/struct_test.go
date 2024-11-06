@@ -3,6 +3,7 @@ package test
 import (
 	"fmt"
 	"polaris-oj-backend/database/mysql"
+
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 	"reflect"
 	"testing"
@@ -74,3 +75,52 @@ func TestGormPreload(t *testing.T) {
 // 	t.Logf("Loaded Question: %+v", question)
 // 	t.Logf("Loaded Associated User: %+v", question.User)
 // }
+
+func TestQueryByPage(t *testing.T) {
+	pageSize := 0
+	currentPage := 1
+	Status := 0
+	Language := "cpp"
+	QuestionID := ""
+	UserID := ""
+	SortField := ""
+	SortOrder := ""
+
+	// TODO EMERGENCY: DTO需要重构
+	var allResults []allModels.QuestionSubmit
+	query := mysql.DB.Model(&allModels.QuestionSubmit{}).Or("status = ?", Status)
+	if Language != "" {
+		query.Or("language = ?", Language)
+	}
+	if QuestionID != "" {
+		query.Or("questionId = ?", QuestionID)
+	}
+	if UserID != "" {
+		query.Or("userId = ?", UserID)
+	}
+	if SortField != "" {
+		order := SortField
+		if SortOrder != "" {
+			order += (" " + SortOrder)
+		}
+		query.Order(order)
+	}
+
+	if pageSize > 0 {
+		offset := (currentPage - 1) * pageSize
+		query.Limit(pageSize).Offset(offset)
+	}
+	var count int64
+	query.Count(&count).Find(&allResults)
+	fmt.Printf("allResults:\n%+v\n", allResults)
+
+}
+
+func TestAssert(t *testing.T) {
+	// var requestDto dto.RequestDto[*allModels.User] = new(user_dto.UserLoginRequest)
+
+	// if request, ok := requestDto.(user_dto.UserLoginRequest); ok {
+
+	// }
+
+}

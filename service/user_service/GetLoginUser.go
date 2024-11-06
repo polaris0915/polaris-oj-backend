@@ -1,4 +1,4 @@
-package userservice
+package user_service
 
 import (
 	"errors"
@@ -11,7 +11,7 @@ import (
 )
 
 // 获取当前登录用户信息
-func (s *UserService) GetLoginUser(session sessions.Session, user *allModels.User) error {
+func (s *UserService) GetLoginUser(session sessions.Session, requestDto any, user *allModels.User) error {
 	// 问题是如何获取用户信息呢？仅凭一个cookie
 	var userInfo *utils.Claims
 	var err error
@@ -23,7 +23,7 @@ func (s *UserService) GetLoginUser(session sessions.Session, user *allModels.Use
 	// TODO unfinished: 可以引入redis，提升性能
 	identity := userInfo.Identity
 
-	if err := mysql.DB.Model(&user).First(user, "identity = ?", identity).Error; err != nil {
+	if err := mysql.DB.Model(user).First(user, "identity = ?", identity).Error; err != nil {
 		return errors.New("系统错误")
 	}
 	return nil

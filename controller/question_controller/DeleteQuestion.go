@@ -1,23 +1,21 @@
-package questioncontroller
+package question_controller
 
 import (
 	"net/http"
-
-	"polaris-oj-backend/common"
 	"polaris-oj-backend/constant"
 
+	"polaris-oj-backend/models/dto"
 	"polaris-oj-backend/models/vo"
-	questionvo "polaris-oj-backend/models/vo/question_vo"
-
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
 // DeleteQuestion
 // @Tags 私有方法,问题
 // @Summary 问题删除
-// @Param deleteInfo body common.DeleteRequest true "delete question info"
+// @Param deleteInfo body dto.DeleteRequest true "delete question info"
 // @Success 200 {object} vo.BaseResponse "{Code:"0",Data:{...}, Message:""}"
 // @Failure 401 {string} string "Unauthorized"
 // @Failure 403 {string} string "Forbidden"
@@ -32,9 +30,9 @@ func (qc *QuestionController) DeleteQuestion(c *gin.Context) {
 	defer func() { // 使用闭包
 		response.Response()
 	}()
-	// 1. 现将请求中的数据转换解析道对应的请求模型中
-	deleteRequest := common.NewDeleteRequest()
-	if response.Err = c.ShouldBindJSON(deleteRequest); response.Err != nil {
+	// 1. 绑定请求数据到DTO层模型中
+	var requestDto dto.RequestDto[*allModels.Question] = new(dto.DeleteRequest)
+	if response.Err = dto.BindAndValidateRequest(c, requestDto); response.Err != nil {
 		response.Code = constant.PARAMS_ERROR.Code
 		response.Data = nil
 		response.Message = response.Err.Error()
@@ -43,21 +41,18 @@ func (qc *QuestionController) DeleteQuestion(c *gin.Context) {
 	// ================controller特殊的业务需求===================
 
 	// ================controller特殊的业务需求===================
-	// 2. 通过DTO层将请求模型转化到数据表模型中
-	question := new(allModels.Question)
-	if response.Err = deleteRequest.DtoToModel(question); response.Err != nil {
-		response.Code = constant.PARAMS_ERROR.Code
-		response.Data = nil
-		response.Message = response.Err.Error()
-		return
-	}
-	// 3. 将DTO层处理好的数据表模型的数据传入service中进行具体的逻辑操作
+	// 2. 将DTO层处理好的数据表模型的数据传入service中进行具体的逻辑操作
 	// service层要是没有任务问题，那么返回的error也是为空
-	// session := sessions.Default(c)
-	// user := new(allModels.User) // 获取题目的创建人的用户信息
+	/*
+		传入service层的参数遵循一个原则：
+			1. 第一个参数应该是 当前请求的session
+			2. 第二个参数应该是 请求结构体，即每个api在DTO层的结构体
+			3. 第三个参数应该是 数据表模型的实体
+	*/
+	session := sessions.Default(c)
+	// question := new(allModels.Question)
 	// TODO unfinished: 需要引入中间件，鉴权之后才能删除
-	if response.Err = qc.questionService.DeleteQuestion(question); response.Err != nil {
-		// 暂时统一将service导出的错误定义为系统错误
+	if response.Err = qc.questionService.DeleteQuestion(session, requestDto, nil); response.Err != nil {
 		response.Code = constant.SYSTEM_ERROR.Code
 		response.Data = nil
 		response.Message = response.Err.Error()
@@ -67,16 +62,9 @@ func (qc *QuestionController) DeleteQuestion(c *gin.Context) {
 
 	// ================controller特殊的业务需求===================
 	// 4. 最终所有的业务逻辑也进行完毕之后，将返回的数据表模型数据交给VO层进行脱敏等操作
-	questionVo := questionvo.NewQuestionVO()
-	if response.Err = questionVo.GetQuestionVO(question, nil); response.Err != nil {
-		response.Code = constant.SYSTEM_ERROR.Code
-		response.Data = nil
-		response.Message = response.Err.Error()
-		return
-	}
 
 	// 5. 所有步骤都没有问题之后就可以将vo层处理好的数据返回了
 	response.Code = constant.SUCCESS.Code
-	response.Data = questionVo
+	response.Data = true
 	response.Message = ""
 }

@@ -1,4 +1,4 @@
-package question_service
+package user_service
 
 import (
 	"errors"
@@ -13,7 +13,7 @@ import (
 )
 
 // 删除问题
-func (s *QuestionService) DeleteQuestion(session sessions.Session, requestDto any, question *allModels.Question) error {
+func (s *UserService) DeleteUser(session sessions.Session, requestDto any, user *allModels.User) error {
 	request, ok := requestDto.(*dto.DeleteRequest)
 	if !ok {
 		return errors.New("类型断言失败")
@@ -33,8 +33,7 @@ func (s *QuestionService) DeleteQuestion(session sessions.Session, requestDto an
 	}
 
 	// 已经删除就不要再删除了
-
-	res := s.db.Delete(&allModels.Question{}, "identity = ?", request.Identity)
+	res := s.db.Delete(&allModels.User{}, "identity = ?", request.Identity)
 	if res.Error != nil {
 		return res.Error
 	} else if res.RowsAffected == 0 {

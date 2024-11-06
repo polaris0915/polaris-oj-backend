@@ -1,4 +1,4 @@
-package questionservice
+package question_service
 
 import (
 	"gorm.io/gorm"

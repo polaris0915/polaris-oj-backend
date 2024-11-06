@@ -1,11 +1,9 @@
-package usercontroller
+package user_controller
 
 import (
 	"net/http"
 	"polaris-oj-backend/constant"
 	"polaris-oj-backend/models/vo"
-
-	// "polaris-oj-backend/service/userservice"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"

@@ -1,9 +1,10 @@
-package userservice
+package user_service
 
 import (
 	"errors"
 	"polaris-oj-backend/common"
 	"polaris-oj-backend/constant"
+	"polaris-oj-backend/models/dto/user_dto"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 	"polaris-oj-backend/utils"
 
@@ -11,7 +12,11 @@ import (
 )
 
 // TODO: 逻辑有问题
-func (s *UserService) UpdateMyUser(session sessions.Session, user *allModels.User) error {
+func (s *UserService) UpdateMyUser(session sessions.Session, requestDto any, user *allModels.User) error {
+	request, ok := requestDto.(*user_dto.UserUpdateMyUserRequest)
+	if !ok {
+		return errors.New("类型断言失败")
+	}
 	// 首先判断用户是否自己已经登录，如果没登录则返回
 	userInfo := new(utils.Claims)
 	var err error
@@ -24,13 +29,15 @@ func (s *UserService) UpdateMyUser(session sessions.Session, user *allModels.Use
 		return errors.New(constant.SYSTEM_ERROR.Message)
 	}
 
-	if err = utils.CopyModels(dbUser, user); err != nil {
-		return errors.New(constant.PARAMS_ERROR.Message)
+	// TODO: 这个函数有问题，要修改
+	if err = utils.CopyModels(dbUser, request); err != nil {
+		// return errors.New(constant.PARAMS_ERROR.Message)
+		return err
 	}
 	if err = s.db.Save(dbUser).Error; err != nil {
 		return errors.New(constant.PARAMS_ERROR.Message)
 	}
-	*user = *dbUser
+	// *user = *dbUser
 	return nil
 
 }

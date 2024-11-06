@@ -20,7 +20,7 @@ func (uc *UserController) Login(c *gin.Context) {
 		response.Response()
 	}()
   【00基本不用变】
-	// 1. 现将请求中的数据转换解析道对应的请求模型中
+	// 1. 绑定请求数据到DTO层模型中
   【更换dto层视图模型】
 	userLoginRequest := user_dto.NewUserLoginRequest()
 	if response.Err = c.ShouldBindJSON(userLoginRequest); response.Err != nil {
@@ -36,7 +36,7 @@ func (uc *UserController) Login(c *gin.Context) {
 	// ================controller特殊的业务需求===================
 	【如果有需要写进入dto层之前的一些简单逻辑】
 	// ================controller特殊的业务需求===================
-	// 2. 通过DTO层将请求模型转化到数据表模型中
+	// 2. 将DTO层数据与数据表响应字段的数据绑定到数据表模型中
   【更换数据库模型】
 	user := new(allModels.User)
   【更换dto层的dto视图转数据库模型的方法】
@@ -105,7 +105,7 @@ func (uc *UserController) Login(c *gin.Context) {
 	defer func() { // 使用闭包
 		response.Response()
 	}()
-	// 1. 现将请求中的数据转换解析道对应的请求模型中
+	// 1. 绑定请求数据到DTO层模型中
 	userLoginRequest := user_dto.NewUserLoginRequest()
 	if response.Err = c.ShouldBindJSON(userLoginRequest); response.Err != nil {
 		// 一般要是发生错误基本上都是将response的Err更新成返回的error
@@ -119,7 +119,7 @@ func (uc *UserController) Login(c *gin.Context) {
 	}
 	// ================controller特殊的业务需求===================
 	// ================controller特殊的业务需求===================
-	// 2. 通过DTO层将请求模型转化到数据表模型中
+	// 2. 将DTO层数据与数据表响应字段的数据绑定到数据表模型中
 	user := new(allModels.User)
 	if response.Err = userLoginRequest.DtoToModel(user); response.Err != nil {
 		response.Code = constant.PARAMS_ERROR.Code

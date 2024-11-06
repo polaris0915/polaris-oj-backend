@@ -14,17 +14,17 @@ const TableNameQuestionSubmit = "question_submit"
 
 // QuestionSubmit 题目提交
 type QuestionSubmit struct {
-	ID         int64          `gorm:"column:id;type:bigint;primaryKey;autoIncrement:true;comment:id" json:"id"`                               // id
-	Identity   string         `gorm:"column:identity;type:varchar(36);not null;index:idx_identity,priority:1;comment:唯一ID" json:"identity"`   // 唯一ID
-	Language   string         `gorm:"column:language;type:varchar(128);not null;comment:编程语言" json:"language"`                                // 编程语言
-	Conetnt    string         `gorm:"column:conetnt;type:text;not null;comment:用户代码" json:"conetnt"`                                          // 用户代码
-	JudgeInfo  string         `gorm:"column:judgeInfo;type:text;comment:判题信息（json 对象）" json:"judgeInfo"`                                      // 判题信息（json 对象）
-	Status     int32          `gorm:"column:status;type:int;not null;comment:判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）" json:"status"`              // 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
-	QuestionID int64          `gorm:"column:questionId;type:bigint;not null;index:idx_questionId,priority:1;comment:题目 id" json:"questionId"` // 题目 id
-	UserID     string         `gorm:"column:userId;type:varchar(36);not null;index:idx_userId,priority:1;comment:创建用户唯一ID" json:"userId"`     // 创建用户唯一ID
-	CreatedAt  time.Time      `gorm:"column:created_at;type:datetime;not null;comment:创建时间" json:"created_at"`                                // 创建时间
-	UpdatedAt  time.Time      `gorm:"column:updated_at;type:datetime;not null;comment:更新时间" json:"updated_at"`                                // 更新时间
-	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at;type:datetime;comment:删除时间" json:"deleted_at"`                                         // 删除时间
+	ID         int64          `gorm:"column:id;type:bigint;primaryKey;autoIncrement:true;comment:id" json:"id"`                                       // id
+	Identity   string         `gorm:"column:identity;type:varchar(36);not null;index:idx_identity,priority:1;comment:唯一ID" json:"identity"`           // 唯一ID
+	Language   string         `gorm:"column:language;type:varchar(128);not null;comment:编程语言" json:"language"`                                        // 编程语言
+	Conetnt    string         `gorm:"column:conetnt;type:text;not null;comment:用户代码" json:"conetnt"`                                                  // 用户代码
+	JudgeInfo  string         `gorm:"column:judgeInfo;type:text;comment:判题信息（json 对象）" json:"judgeInfo"`                                              // 判题信息（json 对象）
+	Status     int32          `gorm:"column:status;type:int;not null;comment:判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）" json:"status"`                      // 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
+	QuestionID string         `gorm:"column:questionId;type:varchar(36);not null;index:idx_questionId,priority:1;comment:创建问题唯一ID" json:"questionId"` // 创建问题唯一ID
+	UserID     string         `gorm:"column:userId;type:varchar(36);not null;index:idx_userId,priority:1;comment:创建用户唯一ID" json:"userId"`             // 创建用户唯一ID
+	CreatedAt  time.Time      `gorm:"column:created_at;type:datetime;not null;comment:创建时间" json:"created_at"`                                        // 创建时间
+	UpdatedAt  time.Time      `gorm:"column:updated_at;type:datetime;not null;comment:更新时间" json:"updated_at"`                                        // 更新时间
+	DeletedAt  gorm.DeletedAt `gorm:"column:deleted_at;type:datetime;comment:删除时间" json:"deleted_at"`                                                 // 删除时间
 	User       *User          `gorm:"foreignKey:UserID;references:Identity" json:"user"`
 	Question   *Question      `gorm:"foreignKey:QuestionID;references:Identity" json:"question"`
 }

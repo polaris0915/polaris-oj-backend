@@ -1,18 +1,25 @@
-package questionservice
+package question_service
 
 import (
 	"errors"
-	"github.com/gin-contrib/sessions"
 	"polaris-oj-backend/common"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 	"polaris-oj-backend/utils"
 
-	"gorm.io/gorm"
+	"github.com/gin-contrib/sessions"
+
+	"polaris-oj-backend/models/dto/question_dto"
 	"polaris-oj-backend/models/enums/userrole_enum"
+
+	"gorm.io/gorm"
 )
 
 // TODO unfinished: 通过id获取问题详情
-func (s *QuestionService) GetQuestionById(session sessions.Session, question *allModels.Question) error {
+func (s *QuestionService) GetQuestionById(session sessions.Session, requestDto any, question *allModels.Question) error {
+	request, ok := requestDto.(*question_dto.QuestionQueryRequest)
+	if !ok {
+		return errors.New("类型断言失败")
+	}
 	// TODO unfinished: 需要编写具体逻辑
 	// 获取当前登录用户
 	var userInfo *utils.Claims
@@ -23,7 +30,7 @@ func (s *QuestionService) GetQuestionById(session sessions.Session, question *al
 	}
 
 	// 查询题目信息，如果没有问题，信息也就在question中了
-	if err = s.db.Preload("User").First(question, "identity = ?", question.Identity).Error; err != nil {
+	if err = s.db.Preload("User").First(question, "identity = ?", request.Identity).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return gorm.ErrRecordNotFound
 		}

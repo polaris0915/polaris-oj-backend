@@ -1,4 +1,4 @@
-package questioncontroller
+package question_controller
 
 import (
 	questionservice "polaris-oj-backend/service/question_service"

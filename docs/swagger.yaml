@@ -1,5 +1,5 @@
 definitions:
-  common.DeleteRequest:
+  dto.DeleteRequest:
     properties:
       identity:
         type: string
@@ -78,18 +78,44 @@ definitions:
     - tags
     - title
     type: object
-  user_dto.UserLoginRequest:
+  questionsubmit_dto.QuestionSubmitAddRequest:
     properties:
-      userAccount:
-        description: Identity     string `json:"identity,omitempty"`
+      conetnt:
+        description: Status     int32  `json:"status"`                              //
+          提交状态
         type: string
-      userPassword:
+      language:
+        description: 编程语言
+        type: string
+      questionId:
+        description: 问题的identity
         type: string
     required:
-    - userAccount
-    - userPassword
+    - language
+    - questionId
     type: object
-  user_dto.UserRegisterRequest:
+  questionsubmit_dto.QuestionSubmitQueryRequest:
+    properties:
+      current:
+        type: integer
+      language:
+        description: 可以由以下三种类别来查询
+        type: string
+      pageSize:
+        type: integer
+      questionId:
+        type: string
+      sortField:
+        type: string
+      sortOrder:
+        type: string
+      status:
+        type: integer
+      userId:
+        description: 管理员查询的是否可以用UserID来查询
+        type: string
+    type: object
+  user_dto.UserAddRequest:
     properties:
       checkPassword:
         type: string
@@ -99,6 +125,17 @@ definitions:
         type: string
     required:
     - checkPassword
+    - userAccount
+    - userPassword
+    type: object
+  user_dto.UserLoginRequest:
+    properties:
+      userAccount:
+        description: Identity     string `json:"identity,omitempty"`
+        type: string
+      userPassword:
+        type: string
+    required:
     - userAccount
     - userPassword
     type: object
@@ -187,7 +224,7 @@ paths:
         name: deleteInfo
         required: true
         schema:
-          $ref: '#/definitions/common.DeleteRequest'
+          $ref: '#/definitions/dto.DeleteRequest'
       responses:
         "200":
           description: '{Code:"0",Data:{...}, Message:""}'
@@ -238,6 +275,66 @@ paths:
       tags:
       - 私有方法
       - 问题
+  /api/question/question_submit/do:
+    post:
+      parameters:
+      - description: add questionSubmit info
+        in: body
+        name: addInfo
+        required: true
+        schema:
+          $ref: '#/definitions/questionsubmit_dto.QuestionSubmitAddRequest'
+      responses:
+        "200":
+          description: '{Code:"0",Data:{...}, Message:""}'
+          schema:
+            $ref: '#/definitions/vo.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: 添加问题提交记录
+      tags:
+      - 私有方法
+      - 问题提交
+  /api/question/question_submit/list/page:
+    post:
+      parameters:
+      - description: query questionSubmit info
+        in: body
+        name: queryInfo
+        required: true
+        schema:
+          $ref: '#/definitions/questionsubmit_dto.QuestionSubmitQueryRequest'
+      responses:
+        "200":
+          description: '{Code:"0",Data:{...}, Message:""}'
+          schema:
+            $ref: '#/definitions/vo.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: 分页查询提交问题
+      tags:
+      - 私有方法
+      - 问题提交
   /api/question/update:
     post:
       parameters:
@@ -265,6 +362,36 @@ paths:
           schema:
             type: string
       summary: 问题修改
+      tags:
+      - 私有方法
+      - 问题
+  /api/user/delete:
+    post:
+      parameters:
+      - description: delete question info
+        in: body
+        name: deleteInfo
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeleteRequest'
+      responses:
+        "200":
+          description: '{Code:"0",Data:{...}, Message:""}'
+          schema:
+            $ref: '#/definitions/vo.BaseResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: 用户删除
       tags:
       - 私有方法
       - 问题
@@ -354,12 +481,12 @@ paths:
   /api/user/register:
     post:
       parameters:
-      - description: user login infos
+      - description: user Register infos
         in: body
         name: login
         required: true
         schema:
-          $ref: '#/definitions/user_dto.UserRegisterRequest'
+          $ref: '#/definitions/user_dto.UserAddRequest'
       responses:
         "200":
           description: '{Code:"0",Data:{...}, Message:""}'

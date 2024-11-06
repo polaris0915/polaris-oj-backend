@@ -99,7 +99,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/common.DeleteRequest"
+                            "$ref": "#/definitions/dto.DeleteRequest"
                         }
                     }
                 ],
@@ -175,6 +175,98 @@
                 }
             }
         },
+        "/api/question/question_submit/do": {
+            "post": {
+                "tags": [
+                    "私有方法",
+                    "问题提交"
+                ],
+                "summary": "添加问题提交记录",
+                "parameters": [
+                    {
+                        "description": "add questionSubmit info",
+                        "name": "addInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/questionsubmit_dto.QuestionSubmitAddRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/question/question_submit/list/page": {
+            "post": {
+                "tags": [
+                    "私有方法",
+                    "问题提交"
+                ],
+                "summary": "分页查询提交问题",
+                "parameters": [
+                    {
+                        "description": "query questionSubmit info",
+                        "name": "queryInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/questionsubmit_dto.QuestionSubmitQueryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/question/update": {
             "post": {
                 "tags": [
@@ -190,6 +282,52 @@
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/question_dto.QuestionUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/delete": {
+            "post": {
+                "tags": [
+                    "私有方法",
+                    "问题"
+                ],
+                "summary": "用户删除",
+                "parameters": [
+                    {
+                        "description": "delete question info",
+                        "name": "deleteInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeleteRequest"
                         }
                     }
                 ],
@@ -357,12 +495,12 @@
                 "summary": "用户注册",
                 "parameters": [
                     {
-                        "description": "user login infos",
+                        "description": "user Register infos",
                         "name": "login",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user_dto.UserRegisterRequest"
+                            "$ref": "#/definitions/user_dto.UserAddRequest"
                         }
                     }
                 ],
@@ -396,7 +534,7 @@
         }
     },
     "definitions": {
-        "common.DeleteRequest": {
+        "dto.DeleteRequest": {
             "type": "object",
             "required": [
                 "identity"
@@ -512,23 +650,59 @@
                 }
             }
         },
-        "user_dto.UserLoginRequest": {
+        "questionsubmit_dto.QuestionSubmitAddRequest": {
             "type": "object",
             "required": [
-                "userAccount",
-                "userPassword"
+                "language",
+                "questionId"
             ],
             "properties": {
-                "userAccount": {
-                    "description": "Identity     string `json:\"identity,omitempty\"`",
+                "conetnt": {
+                    "description": "Status     int32  `json:\"status\"`                              // 提交状态",
                     "type": "string"
                 },
-                "userPassword": {
+                "language": {
+                    "description": "编程语言",
+                    "type": "string"
+                },
+                "questionId": {
+                    "description": "问题的identity",
                     "type": "string"
                 }
             }
         },
-        "user_dto.UserRegisterRequest": {
+        "questionsubmit_dto.QuestionSubmitQueryRequest": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "type": "integer"
+                },
+                "language": {
+                    "description": "可以由以下三种类别来查询",
+                    "type": "string"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "questionId": {
+                    "type": "string"
+                },
+                "sortField": {
+                    "type": "string"
+                },
+                "sortOrder": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "description": "管理员查询的是否可以用UserID来查询",
+                    "type": "string"
+                }
+            }
+        },
+        "user_dto.UserAddRequest": {
             "type": "object",
             "required": [
                 "checkPassword",
@@ -540,6 +714,22 @@
                     "type": "string"
                 },
                 "userAccount": {
+                    "type": "string"
+                },
+                "userPassword": {
+                    "type": "string"
+                }
+            }
+        },
+        "user_dto.UserLoginRequest": {
+            "type": "object",
+            "required": [
+                "userAccount",
+                "userPassword"
+            ],
+            "properties": {
+                "userAccount": {
+                    "description": "Identity     string `json:\"identity,omitempty\"`",
                     "type": "string"
                 },
                 "userPassword": {

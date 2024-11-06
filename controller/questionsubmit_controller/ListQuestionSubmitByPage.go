@@ -1,29 +1,29 @@
-package question_controller
+package questionsubmit_controller
 
 import (
 	"net/http"
 
 	"polaris-oj-backend/constant"
 	"polaris-oj-backend/models/dto"
-	"polaris-oj-backend/models/dto/question_dto"
+	"polaris-oj-backend/models/dto/questionsubmit_dto"
 	"polaris-oj-backend/models/vo"
-	"polaris-oj-backend/models/vo/question_vo"
+	"polaris-oj-backend/models/vo/questionsubmit_vo"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
-// GetQuestionById
-// @Tags 私有方法, 问题
-// @Summary 通过问题的Identity获取问题详情
-// @Param Identity query string true "identity"
+// ListQuestionSubmitByPage
+// @Tags 私有方法,问题提交
+// @Summary 分页查询提交问题
+// @Param queryInfo body questionsubmit_dto.QuestionSubmitQueryRequest true "query questionSubmit info"
 // @Success 200 {object} vo.BaseResponse "{Code:"0",Data:{...}, Message:""}"
 // @Failure 401 {string} string "Unauthorized"
 // @Failure 403 {string} string "Forbidden"
 // @Failure 404 {string} string "Not Found"
-// @Router /api/question/get [get]
-func (qc *QuestionController) GetQuestionById(c *gin.Context) {
+// @Router /api/question/question_submit/list/page [post]
+func (qc *QuestionSubmitController) ListQuestionSubmitByPage(c *gin.Context) {
 	// TODO unfinished: 需要添加中间件，只有管理员或者允许修改的人员才可以更新问题的内容
 	// 00. 函数结束固定调用NewSubResponse
 	// response对象初始化遵循Code以及Message都是未决的状态
@@ -33,7 +33,7 @@ func (qc *QuestionController) GetQuestionById(c *gin.Context) {
 		response.Response()
 	}()
 	// 1. 绑定请求数据到DTO层模型中
-	var requestDto dto.RequestDto[*allModels.User] = new(question_dto.QuestionQueryRequest)
+	var requestDto dto.RequestDto[*allModels.QuestionSubmit] = new(questionsubmit_dto.QuestionSubmitQueryRequest)
 	/*
 		添加新的接口后，要去dto.BindAndValidateRequest添加新的断言
 		以便请求数据能够成功转换到对应的请求模型中
@@ -52,31 +52,38 @@ func (qc *QuestionController) GetQuestionById(c *gin.Context) {
 	/*
 		传入service层的参数遵循一个原则：
 			1. 第一个参数应该是 当前请求的session
-			2. 第二个参数应该是 请求接口，即DTO层的RequestDto泛型接口
+			2. 第二个参数应该是 请求结构体，即每个api在DTO层的结构体
 			3. 第三个参数应该是 数据表模型的实体
 	*/
 	session := sessions.Default(c)
-	question := new(allModels.Question)
-	if response.Err = qc.questionService.GetQuestionById(session, requestDto, question); response.Err != nil {
+	var data map[string]any
+	if data, response.Err = qc.questionSubmitService.ListQuestionSubmitByPage(session, requestDto, nil); response.Err != nil {
 		response.Code = constant.SYSTEM_ERROR.Code
 		response.Data = nil
 		response.Message = response.Err.Error()
 		return
 	}
 	// ================controller特殊的业务需求===================
-
+	all_questionSubmits, ok := data["data"].([]*allModels.QuestionSubmit)
+	if !ok {
+		response.Code = constant.SYSTEM_ERROR.Code
+		response.Data = nil
+		response.Message = "数据转换错误"
+	}
 	// ================controller特殊的业务需求===================
-	// 3. 最终所有的业务逻辑也进行完毕之后，将返回的数据表模型数据交给VO层进行脱敏等操作
-	var responVo vo.ResponVo[*allModels.Question] = new(question_vo.QuestionVO)
-	if response.Err = responVo.GetResponseVo(question); response.Err != nil {
+	// 4. 最终所有的业务逻辑也进行完毕之后，将返回的数据表模型数据交给VO层进行脱敏等操作
+	var responseVo vo.ResponVo[[]*allModels.QuestionSubmit] = new(questionsubmit_vo.QueryQuestionSubmitVO)
+	if response.Err = responseVo.GetResponseVo(all_questionSubmits); response.Err != nil {
 		response.Code = constant.SYSTEM_ERROR.Code
 		response.Data = nil
 		response.Message = response.Err.Error()
 		return
 	}
-
-	// 4. 所有步骤都没有问题之后就可以将vo层处理好的数据返回了
+	// ================controller特殊的业务需求===================
+	// TODO continue: 完善responseVo中的pageVo
+	// ================controller特殊的业务需求===================
+	// 5. 所有步骤都没有问题之后就可以将vo层处理好的数据返回了
 	response.Code = constant.SUCCESS.Code
-	response.Data = responVo
+	response.Data = responseVo
 	response.Message = ""
 }

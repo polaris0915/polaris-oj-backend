@@ -1,18 +1,17 @@
-package usercontroller
+package user_controller
 
 import (
 	"errors"
 	"net/http"
 	"polaris-oj-backend/constant"
 	"polaris-oj-backend/models/vo"
-	uservo "polaris-oj-backend/models/vo/user_vo"
+	"polaris-oj-backend/models/vo/user_vo"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 
-	// "polaris-oj-backend/service/userservice"
+	"polaris-oj-backend/models/enums/userrole_enum"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"polaris-oj-backend/models/enums/userrole_enum"
 )
 
 // GetLoginUser
@@ -31,7 +30,7 @@ func (uc *UserController) GetLoginUser(c *gin.Context) {
 	defer func() { // 使用闭包
 		response.Response()
 	}()
-	// 1. 现将请求中的数据转换解析道对应的请求模型中
+	// 1. 绑定请求数据到DTO层模型中
 
 	// ================controller特殊的业务需求===================
 	// 先尝试获取请求头中的token，没有的话就是未登录
@@ -43,14 +42,17 @@ func (uc *UserController) GetLoginUser(c *gin.Context) {
 		return
 	}
 	// ================controller特殊的业务需求===================
-
-	// 2. 通过DTO层将请求模型转化到数据表模型中
-
-	// 3. 将DTO层处理好的数据表模型的数据传入service中进行具体的逻辑操作
+	// 2. 将DTO层处理好的数据表模型的数据传入service中进行具体的逻辑操作
 	// service层要是没有任务问题，那么返回的error也是为空
+	/*
+		传入service层的参数遵循一个原则：
+			1. 第一个参数应该是 当前请求的session
+			2. 第二个参数应该是 请求结构体，即每个api在DTO层的结构体
+			3. 第三个参数应该是 数据表模型的实体
+	*/
 	session := sessions.Default(c)
 	user := new(allModels.User)
-	if response.Err = uc.userService.GetLoginUser(session, user); response.Err != nil {
+	if response.Err = uc.userService.GetLoginUser(session, nil, user); response.Err != nil {
 		response.Code = constant.SYSTEM_ERROR.Code
 		response.Data = nil
 		response.Message = response.Err.Error()
@@ -59,17 +61,17 @@ func (uc *UserController) GetLoginUser(c *gin.Context) {
 	// ================controller特殊的业务需求===================
 
 	// ================controller特殊的业务需求===================
-	// 4. 最终所有的业务逻辑也进行完毕之后，将返回的数据表模型数据交给VO层进行脱敏等操作
-	userVo := uservo.NewUserVo()
-	if response.Err = userVo.GetUserVo(user); response.Err != nil {
+	// 3. 最终所有的业务逻辑也进行完毕之后，将返回的数据表模型数据交给VO层进行脱敏等操作
+	var responseVo vo.ResponVo[*allModels.User] = new(user_vo.UserVO)
+	if response.Err = responseVo.GetResponseVo(user); response.Err != nil {
 		response.Code = constant.SYSTEM_ERROR.Code
 		response.Data = nil
 		response.Message = response.Err.Error()
 		return
 	}
 
-	// 5. 所有步骤都没有问题之后就可以将vo层处理好的数据返回了
+	// 4. 所有步骤都没有问题之后就可以将vo层处理好的数据返回了
 	response.Code = constant.SUCCESS.Code
-	response.Data = userVo
+	response.Data = responseVo
 	response.Message = ""
 }

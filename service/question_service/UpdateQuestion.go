@@ -1,9 +1,11 @@
-package questionservice
+package question_service
 
 import (
 	"errors"
-	"github.com/gin-contrib/sessions"
 	"polaris-oj-backend/common"
+	"polaris-oj-backend/models/dto/question_dto"
+
+	"github.com/gin-contrib/sessions"
 
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 	"polaris-oj-backend/utils"
@@ -18,11 +20,15 @@ import (
 */
 // 目前只是开发测试基本的功能是否能够接通数据库
 // 更新问题
-func (s *QuestionService) UpdateQuestion(session sessions.Session, question *allModels.Question, user *allModels.User) error {
-	// 获取题目创建人的用户信息
-	var userInfo *utils.Claims
+func (s *QuestionService) UpdateQuestion(session sessions.Session, requestDto any, question *allModels.Question) error {
+	request, ok := requestDto.(*question_dto.QuestionUpdateRequest)
+	if !ok {
+		return errors.New("类型断言失败")
+	}
+	// 获取当前登录用户
+	// var userInfo *utils.Claims
 	var err error
-	if userInfo, err = common.GetLoginUser(session); err != nil {
+	if _, err = common.GetLoginUser(session); err != nil {
 		return err
 	}
 	// TODO: 在调用这个接口的时候就应该是已经通过中间件鉴权了，这边再次验证一下
@@ -31,19 +37,14 @@ func (s *QuestionService) UpdateQuestion(session sessions.Session, question *all
 	// 	return errors.New("权限不足")
 	// }
 
-	// 查找修改题目的用户的信息
-	if err = s.db.First(user, "identity = ?", userInfo.Identity).Error; err != nil {
-		return err
-	}
 	// 更新问题业务
 	dbQuestion := new(allModels.Question)
 	// 根据问题的identity查找出问题
-	if err := s.db.Model(dbQuestion).First(&dbQuestion, "identity = ?", question.Identity).Error; err != nil {
+	if err := s.db.Model(dbQuestion).First(&dbQuestion, "identity = ?", request.Identity).Error; err != nil {
 		return errors.New("没有该数据")
 	}
-	// TODO: 逻辑有问题
 	// 更新dbQuestion即数据库中该问题需要更新的字段
-	if err := utils.CopyModels(dbQuestion, question); err != nil {
+	if err := utils.CopyModels(dbQuestion, request); err != nil {
 		return err
 	}
 

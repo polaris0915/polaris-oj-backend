@@ -1,16 +1,15 @@
-package uservo
+package user_vo
 
 import (
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 
 	"time"
 
-	"github.com/go-playground/validator"
+	"github.com/go-playground/validator/v10"
 	"github.com/jinzhu/copier"
 )
 
 type UserVO struct {
-	// models.ModelValidator
 	Identity    string    `json:"identity"`
 	UserAvatar  string    `json:"userAvatar"`
 	UserName    string    `json:"userName"`
@@ -24,12 +23,7 @@ func (u *UserVO) GetValidator() *validator.Validate {
 	return validator.New()
 }
 
-func NewUserVo() *UserVO {
-	u := new(UserVO)
-	return u
-}
-
-func (u *UserVO) GetUserVo(user *allModels.User) error {
+func (u *UserVO) GetResponseVo(user *allModels.User) error {
 	if err := copier.Copy(u, user); err != nil {
 		return err
 	}
