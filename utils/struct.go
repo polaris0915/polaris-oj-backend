@@ -45,3 +45,7 @@ func CopyModels(toValue any, fromValue any) error {
 	}
 	return nil
 }
+
+func GetBoolPtr(b bool) *bool {
+	return &b
+}

@@ -78,6 +78,52 @@ definitions:
     - tags
     - title
     type: object
+  question_vo.QuestionVO:
+    properties:
+      acceptedNum:
+        description: 题目通过数
+        type: integer
+      content:
+        description: 内容
+        type: string
+      createTime:
+        description: 'TODO question: 这边时间的名字没有对应上，不知道会不会出问题'
+        type: string
+      favourNum:
+        description: 收藏数
+        type: integer
+      identity:
+        description: id
+        type: string
+      judgeConfig:
+        allOf:
+        - $ref: '#/definitions/judgeconfig.JudgeConfig'
+        description: 判题配置（json 对象）
+      submitNum:
+        description: 题目提交数
+        type: integer
+      tags:
+        description: 标签列表
+        items:
+          type: string
+        type: array
+      thumbNum:
+        description: 点赞数
+        type: integer
+      title:
+        description: 标题
+        type: string
+      updateTime:
+        description: 更新时间
+        type: string
+      userId:
+        description: 创建用户 id
+        type: integer
+      userVO:
+        allOf:
+        - $ref: '#/definitions/user_vo.UserVO'
+        description: 创建题目人的信息
+    type: object
   questionsubmit_dto.QuestionSubmitAddRequest:
     properties:
       conetnt:
@@ -99,7 +145,6 @@ definitions:
       current:
         type: integer
       language:
-        description: 可以由以下三种类别来查询
         type: string
       pageSize:
         type: integer
@@ -110,9 +155,48 @@ definitions:
       sortOrder:
         type: string
       status:
+        description: 可以由以下类别来查询
         type: integer
       userId:
         description: 管理员查询的是否可以用UserID来查询
+        type: string
+    type: object
+  questionsubmit_vo.QuestionSubmitVO:
+    properties:
+      conetnt:
+        description: 用户代码
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      identity:
+        description: 唯一ID
+        type: string
+      judgeInfo:
+        description: 判题信息（json 对象）
+        type: string
+      language:
+        description: 编程语言
+        type: string
+      question:
+        allOf:
+        - $ref: '#/definitions/question_vo.QuestionVO'
+        description: 题目信息
+      questionId:
+        description: 题目 id
+        type: string
+      status:
+        description: 判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）
+        type: integer
+      updated_at:
+        description: 更新时间
+        type: string
+      user:
+        allOf:
+        - $ref: '#/definitions/user_vo.UserVO'
+        description: 提交用户信息
+      userId:
+        description: 题目创建用户唯一ID
         type: string
     type: object
   user_dto.UserAddRequest:
@@ -148,14 +232,71 @@ definitions:
       userProfile:
         type: string
     type: object
-  vo.BaseResponse:
+  user_vo.UserVO:
+    properties:
+      createTime:
+        type: string
+      identity:
+        type: string
+      updateTime:
+        type: string
+      userAvatar:
+        type: string
+      userName:
+        type: string
+      userProfile:
+        type: string
+      userRole:
+        type: string
+    type: object
+  vo.BaseResponse-array_questionsubmit_vo_QuestionSubmitVO:
     properties:
       code:
         description: 响应码
         type: integer
       data:
         description: 接口，表示具体信息
-      err: {}
+        items:
+          $ref: '#/definitions/questionsubmit_vo.QuestionSubmitVO'
+        type: array
+      message:
+        description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
+        type: string
+    type: object
+  vo.BaseResponse-bool:
+    properties:
+      code:
+        description: 响应码
+        type: integer
+      data:
+        description: 接口，表示具体信息
+        type: boolean
+      message:
+        description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
+        type: string
+    type: object
+  vo.BaseResponse-question_vo_QuestionVO:
+    properties:
+      code:
+        description: 响应码
+        type: integer
+      data:
+        allOf:
+        - $ref: '#/definitions/question_vo.QuestionVO'
+        description: 接口，表示具体信息
+      message:
+        description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
+        type: string
+    type: object
+  vo.BaseResponse-user_vo_UserVO:
+    properties:
+      code:
+        description: 响应码
+        type: integer
+      data:
+        allOf:
+        - $ref: '#/definitions/user_vo.UserVO'
+        description: 接口，表示具体信息
       message:
         description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
         type: string
@@ -167,9 +308,9 @@ paths:
     get:
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/user_vo.UserVO'
         "401":
           description: Unauthorized
           schema:
@@ -184,7 +325,6 @@ paths:
             type: string
       summary: 获取当前登录用户
       tags:
-      - 公共方法
       - 用户
   /api/question/add:
     post:
@@ -197,9 +337,9 @@ paths:
           $ref: '#/definitions/question_dto.QuestionAddRequest'
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-bool'
         "401":
           description: Unauthorized
           schema:
@@ -214,7 +354,6 @@ paths:
             type: string
       summary: 问题添加
       tags:
-      - 私有方法
       - 问题
   /api/question/delete:
     post:
@@ -227,9 +366,9 @@ paths:
           $ref: '#/definitions/dto.DeleteRequest'
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-bool'
         "401":
           description: Unauthorized
           schema:
@@ -244,7 +383,6 @@ paths:
             type: string
       summary: 问题删除
       tags:
-      - 私有方法
       - 问题
   /api/question/get:
     get:
@@ -256,9 +394,9 @@ paths:
         type: string
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-question_vo_QuestionVO'
         "401":
           description: Unauthorized
           schema:
@@ -273,7 +411,6 @@ paths:
             type: string
       summary: 通过问题的Identity获取问题详情
       tags:
-      - 私有方法
       - 问题
   /api/question/question_submit/do:
     post:
@@ -286,9 +423,9 @@ paths:
           $ref: '#/definitions/questionsubmit_dto.QuestionSubmitAddRequest'
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-bool'
         "401":
           description: Unauthorized
           schema:
@@ -303,7 +440,6 @@ paths:
             type: string
       summary: 添加问题提交记录
       tags:
-      - 私有方法
       - 问题提交
   /api/question/question_submit/list/page:
     post:
@@ -316,9 +452,9 @@ paths:
           $ref: '#/definitions/questionsubmit_dto.QuestionSubmitQueryRequest'
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-array_questionsubmit_vo_QuestionSubmitVO'
         "401":
           description: Unauthorized
           schema:
@@ -333,7 +469,6 @@ paths:
             type: string
       summary: 分页查询提交问题
       tags:
-      - 私有方法
       - 问题提交
   /api/question/update:
     post:
@@ -346,9 +481,9 @@ paths:
           $ref: '#/definitions/question_dto.QuestionUpdateRequest'
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-bool'
         "401":
           description: Unauthorized
           schema:
@@ -363,7 +498,6 @@ paths:
             type: string
       summary: 问题修改
       tags:
-      - 私有方法
       - 问题
   /api/user/delete:
     post:
@@ -376,9 +510,9 @@ paths:
           $ref: '#/definitions/dto.DeleteRequest'
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-bool'
         "401":
           description: Unauthorized
           schema:
@@ -393,8 +527,7 @@ paths:
             type: string
       summary: 用户删除
       tags:
-      - 私有方法
-      - 问题
+      - 用户
   /api/user/login:
     post:
       parameters:
@@ -406,9 +539,9 @@ paths:
           $ref: '#/definitions/user_dto.UserLoginRequest'
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-user_vo_UserVO'
         "401":
           description: Unauthorized
           schema:
@@ -423,15 +556,14 @@ paths:
             type: string
       summary: 用户登陆
       tags:
-      - 公共方法
       - 用户
   /api/user/logout:
     post:
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-bool'
         "401":
           description: Unauthorized
           schema:
@@ -446,7 +578,6 @@ paths:
             type: string
       summary: 用户退出登录
       tags:
-      - 私有方法
       - 用户
   /api/user/my:
     post:
@@ -459,9 +590,9 @@ paths:
           $ref: '#/definitions/user_dto.UserUpdateMyUserRequest'
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-bool'
         "401":
           description: Unauthorized
           schema:
@@ -476,7 +607,6 @@ paths:
             type: string
       summary: 用户更新自己的数据
       tags:
-      - 私有方法
       - 用户
   /api/user/register:
     post:
@@ -489,9 +619,9 @@ paths:
           $ref: '#/definitions/user_dto.UserAddRequest'
       responses:
         "200":
-          description: '{Code:"0",Data:{...}, Message:""}'
+          description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse'
+            $ref: '#/definitions/vo.BaseResponse-bool'
         "401":
           description: Unauthorized
           schema:
@@ -506,6 +636,5 @@ paths:
             type: string
       summary: 用户注册
       tags:
-      - 公共方法
       - 用户
 swagger: "2.0"

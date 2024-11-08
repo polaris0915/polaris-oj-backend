@@ -18,15 +18,14 @@ const docTemplate = `{
         "/api/get/user/login": {
             "get": {
                 "tags": [
-                    "公共方法",
                     "用户"
                 ],
                 "summary": "获取当前登录用户",
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/user_vo.UserVO"
                         }
                     },
                     "401": {
@@ -53,7 +52,6 @@ const docTemplate = `{
         "/api/question/add": {
             "post": {
                 "tags": [
-                    "私有方法",
                     "问题"
                 ],
                 "summary": "问题添加",
@@ -70,9 +68,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-bool"
                         }
                     },
                     "401": {
@@ -99,7 +97,6 @@ const docTemplate = `{
         "/api/question/delete": {
             "post": {
                 "tags": [
-                    "私有方法",
                     "问题"
                 ],
                 "summary": "问题删除",
@@ -116,9 +113,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-bool"
                         }
                     },
                     "401": {
@@ -145,7 +142,6 @@ const docTemplate = `{
         "/api/question/get": {
             "get": {
                 "tags": [
-                    "私有方法",
                     "问题"
                 ],
                 "summary": "通过问题的Identity获取问题详情",
@@ -160,9 +156,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-question_vo_QuestionVO"
                         }
                     },
                     "401": {
@@ -189,7 +185,6 @@ const docTemplate = `{
         "/api/question/question_submit/do": {
             "post": {
                 "tags": [
-                    "私有方法",
                     "问题提交"
                 ],
                 "summary": "添加问题提交记录",
@@ -206,9 +201,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-bool"
                         }
                     },
                     "401": {
@@ -235,7 +230,6 @@ const docTemplate = `{
         "/api/question/question_submit/list/page": {
             "post": {
                 "tags": [
-                    "私有方法",
                     "问题提交"
                 ],
                 "summary": "分页查询提交问题",
@@ -252,9 +246,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-array_questionsubmit_vo_QuestionSubmitVO"
                         }
                     },
                     "401": {
@@ -281,7 +275,6 @@ const docTemplate = `{
         "/api/question/update": {
             "post": {
                 "tags": [
-                    "私有方法",
                     "问题"
                 ],
                 "summary": "问题修改",
@@ -298,9 +291,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-bool"
                         }
                     },
                     "401": {
@@ -327,8 +320,7 @@ const docTemplate = `{
         "/api/user/delete": {
             "post": {
                 "tags": [
-                    "私有方法",
-                    "问题"
+                    "用户"
                 ],
                 "summary": "用户删除",
                 "parameters": [
@@ -344,9 +336,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-bool"
                         }
                     },
                     "401": {
@@ -373,7 +365,6 @@ const docTemplate = `{
         "/api/user/login": {
             "post": {
                 "tags": [
-                    "公共方法",
                     "用户"
                 ],
                 "summary": "用户登陆",
@@ -390,9 +381,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-user_vo_UserVO"
                         }
                     },
                     "401": {
@@ -419,15 +410,14 @@ const docTemplate = `{
         "/api/user/logout": {
             "post": {
                 "tags": [
-                    "私有方法",
                     "用户"
                 ],
                 "summary": "用户退出登录",
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-bool"
                         }
                     },
                     "401": {
@@ -454,7 +444,6 @@ const docTemplate = `{
         "/api/user/my": {
             "post": {
                 "tags": [
-                    "私有方法",
                     "用户"
                 ],
                 "summary": "用户更新自己的数据",
@@ -471,9 +460,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-bool"
                         }
                     },
                     "401": {
@@ -500,7 +489,6 @@ const docTemplate = `{
         "/api/user/register": {
             "post": {
                 "tags": [
-                    "公共方法",
                     "用户"
                 ],
                 "summary": "用户注册",
@@ -517,9 +505,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "{Code:\"0\",Data:{...}, Message:\"\"}",
+                        "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse"
+                            "$ref": "#/definitions/vo.BaseResponse-bool"
                         }
                     },
                     "401": {
@@ -661,6 +649,74 @@ const docTemplate = `{
                 }
             }
         },
+        "question_vo.QuestionVO": {
+            "type": "object",
+            "properties": {
+                "acceptedNum": {
+                    "description": "题目通过数",
+                    "type": "integer"
+                },
+                "content": {
+                    "description": "内容",
+                    "type": "string"
+                },
+                "createTime": {
+                    "description": "TODO question: 这边时间的名字没有对应上，不知道会不会出问题",
+                    "type": "string"
+                },
+                "favourNum": {
+                    "description": "收藏数",
+                    "type": "integer"
+                },
+                "identity": {
+                    "description": "id",
+                    "type": "string"
+                },
+                "judgeConfig": {
+                    "description": "判题配置（json 对象）",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/judgeconfig.JudgeConfig"
+                        }
+                    ]
+                },
+                "submitNum": {
+                    "description": "题目提交数",
+                    "type": "integer"
+                },
+                "tags": {
+                    "description": "标签列表",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "thumbNum": {
+                    "description": "点赞数",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "标题",
+                    "type": "string"
+                },
+                "updateTime": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "userId": {
+                    "description": "创建用户 id",
+                    "type": "integer"
+                },
+                "userVO": {
+                    "description": "创建题目人的信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/user_vo.UserVO"
+                        }
+                    ]
+                }
+            }
+        },
         "questionsubmit_dto.QuestionSubmitAddRequest": {
             "type": "object",
             "required": [
@@ -689,7 +745,6 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "language": {
-                    "description": "可以由以下三种类别来查询",
                     "type": "string"
                 },
                 "pageSize": {
@@ -705,10 +760,68 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
+                    "description": "可以由以下类别来查询",
                     "type": "integer"
                 },
                 "userId": {
                     "description": "管理员查询的是否可以用UserID来查询",
+                    "type": "string"
+                }
+            }
+        },
+        "questionsubmit_vo.QuestionSubmitVO": {
+            "type": "object",
+            "properties": {
+                "conetnt": {
+                    "description": "用户代码",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "identity": {
+                    "description": "唯一ID",
+                    "type": "string"
+                },
+                "judgeInfo": {
+                    "description": "判题信息（json 对象）",
+                    "type": "string"
+                },
+                "language": {
+                    "description": "编程语言",
+                    "type": "string"
+                },
+                "question": {
+                    "description": "题目信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/question_vo.QuestionVO"
+                        }
+                    ]
+                },
+                "questionId": {
+                    "description": "题目 id",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "判题状态（0 - 待判题、1 - 判题中、2 - 成功、3 - 失败）",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "description": "更新时间",
+                    "type": "string"
+                },
+                "user": {
+                    "description": "提交用户信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/user_vo.UserVO"
+                        }
+                    ]
+                },
+                "userId": {
+                    "description": "题目创建用户唯一ID",
                     "type": "string"
                 }
             }
@@ -762,7 +875,33 @@ const docTemplate = `{
                 }
             }
         },
-        "vo.BaseResponse": {
+        "user_vo.UserVO": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "string"
+                },
+                "identity": {
+                    "type": "string"
+                },
+                "updateTime": {
+                    "type": "string"
+                },
+                "userAvatar": {
+                    "type": "string"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "userProfile": {
+                    "type": "string"
+                },
+                "userRole": {
+                    "type": "string"
+                }
+            }
+        },
+        "vo.BaseResponse-array_questionsubmit_vo_QuestionSubmitVO": {
             "type": "object",
             "properties": {
                 "code": {
@@ -770,9 +909,71 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "data": {
-                    "description": "接口，表示具体信息"
+                    "description": "接口，表示具体信息",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/questionsubmit_vo.QuestionSubmitVO"
+                    }
                 },
-                "err": {},
+                "message": {
+                    "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
+                    "type": "string"
+                }
+            }
+        },
+        "vo.BaseResponse-bool": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "响应码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "接口，表示具体信息",
+                    "type": "boolean"
+                },
+                "message": {
+                    "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
+                    "type": "string"
+                }
+            }
+        },
+        "vo.BaseResponse-question_vo_QuestionVO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "响应码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "接口，表示具体信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/question_vo.QuestionVO"
+                        }
+                    ]
+                },
+                "message": {
+                    "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
+                    "type": "string"
+                }
+            }
+        },
+        "vo.BaseResponse-user_vo_UserVO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "响应码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "接口，表示具体信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/user_vo.UserVO"
+                        }
+                    ]
+                },
                 "message": {
                     "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
                     "type": "string"

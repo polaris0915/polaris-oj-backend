@@ -7,26 +7,25 @@ import (
 	"polaris-oj-backend/models/dto/user_dto"
 	"polaris-oj-backend/models/vo"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
+	"polaris-oj-backend/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 // AddUser
-// @Tags 公共方法, 用户
+// @Tags 用户
 // @Summary 用户注册
 // @Param login body user_dto.UserAddRequest true "user Register infos"
-// @Success 200 {object} vo.BaseResponse "{Code:"0",Data:{...}, Message:""}"
+// @Success 200 {object} vo.BaseResponse[bool]
 // @Failure 401 {string} string "Unauthorized"
 // @Failure 403 {string} string "Forbidden"
 // @Failure 404 {string} string "Not Found"
 // @Router /api/user/register [post]
 func (uc *UserController) AddUser(c *gin.Context) {
-	// 00. 函数结束固定调用NewSubResponse
-	// response对象初始化遵循Code以及Message都是未决的状态
-	// 方便之后判断，那么data接口的数据应该也是为nil的状态
-	response := vo.NewSubResponse(c, http.StatusOK, constant.UNDEFINED.Code, nil, constant.UNDEFINED.Message)
+	// 00. 函数结束固定调用BaseResponse中调用Response
+	var response vo.BaseResponse[bool]
 	defer func() { // 使用闭包
-		response.Response()
+		response.Response(c, http.StatusOK)
 	}()
 	// 1. 绑定请求数据到DTO层模型中
 	var requestDto dto.RequestDto[*allModels.User] = new(user_dto.UserAddRequest)
@@ -34,10 +33,9 @@ func (uc *UserController) AddUser(c *gin.Context) {
 		添加新的接口后，要去dto.BindAndValidateRequest添加新的断言
 		以便请求数据能够成功转换到对应的请求模型中
 	*/
-	if response.Err = dto.BindAndValidateRequest(c, requestDto); response.Err != nil {
+	if err := dto.BindAndValidateRequest(c, requestDto); err != nil {
 		response.Code = constant.PARAMS_ERROR.Code
-		response.Data = nil
-		response.Message = response.Err.Error()
+		response.Message = err.Error()
 		return
 	}
 	// ================controller特殊的业务需求===================
@@ -55,11 +53,9 @@ func (uc *UserController) AddUser(c *gin.Context) {
 	// 创建用户接口是不用session的
 	// session := sessions.Default(c)
 	user := new(allModels.User)
-	response.Err = uc.userService.AddUser(nil, requestDto, user)
-	if response.Err != nil {
+	if err := uc.userService.AddUser(nil, requestDto, user); err != nil {
 		response.Code = constant.SYSTEM_ERROR.Code
-		response.Data = nil
-		response.Message = response.Err.Error()
+		response.Message = err.Error()
 		return
 	}
 	// ================controller特殊的业务需求===================
@@ -69,6 +65,6 @@ func (uc *UserController) AddUser(c *gin.Context) {
 
 	// 4. 所有步骤都没有问题之后就可以将vo层处理好的数据返回了
 	response.Code = constant.SUCCESS.Code
-	response.Data = true
-	response.Message = ""
+	response.Data = utils.GetBoolPtr(true)
+
 }

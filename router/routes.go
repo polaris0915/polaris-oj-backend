@@ -11,9 +11,10 @@ import (
 
 	_ "polaris-oj-backend/docs"
 
+	"polaris-oj-backend/models/enums/userrole_enum"
+
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"polaris-oj-backend/models/enums/userrole_enum"
 )
 
 func Router() *gin.Engine {
