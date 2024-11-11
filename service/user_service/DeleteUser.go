@@ -13,12 +13,9 @@ import (
 )
 
 // 删除问题
-func (s *UserService) DeleteUser(session sessions.Session, requestDto any, user *allModels.User) error {
-	request, ok := requestDto.(*dto.DeleteRequest)
-	if !ok {
-		return errors.New("类型断言失败")
-	}
+func (s *Service) DeleteUser(request *dto.DeleteRequest) error {
 	// 校验当前登录用户信息
+	session := sessions.Default(s.ctx)
 	var userInfo *utils.Claims
 	var err error
 	if userInfo, err = common.GetLoginUser(session); err != nil {

@@ -6,8 +6,6 @@ import (
 	"polaris-oj-backend/models/enums/userrole_enum"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 	"polaris-oj-backend/utils"
-
-	"github.com/gin-contrib/sessions"
 )
 
 // 验证用户注册信息的输入
@@ -28,12 +26,9 @@ func validateRegistrationInput(userAccount, userPassword, checkPassword string) 
 }
 
 // 注册用户
-func (s *UserService) AddUser(session sessions.Session, requestDto any, user *allModels.User) error {
-	request, ok := requestDto.(*user_dto.UserAddRequest)
-	if !ok {
-		return errors.New("类型断言失败")
-	}
+func (s *Service) AddUser(request *user_dto.UserAddRequest) error {
 	//===============基础字段的检查=========================
+	user := new(allModels.User)
 	if err := validateRegistrationInput(request.UserAccount, request.UserPassword, request.CheckPassword); err != nil {
 		return err
 	}

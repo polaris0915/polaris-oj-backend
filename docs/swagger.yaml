@@ -49,6 +49,23 @@ definitions:
     - judgeConfig
     - title
     type: object
+  question_dto.QuestionQueryByPageRequest:
+    properties:
+      current:
+        type: integer
+      identity:
+        description: 可以由以下类别来查询
+        type: string
+      pageSize:
+        type: integer
+      sortField:
+        type: string
+      sortOrder:
+        type: string
+      userId:
+        description: 管理员查询的是否可以用UserID来查询
+        type: string
+    type: object
   question_dto.QuestionUpdateRequest:
     properties:
       answer:
@@ -77,6 +94,34 @@ definitions:
     - judgeConfig
     - tags
     - title
+    type: object
+  question_vo.QueryQuestionVO:
+    properties:
+      MaxLimit:
+        type: integer
+      countId:
+        type: string
+      current:
+        type: integer
+      oders:
+        items:
+          additionalProperties: {}
+          type: object
+        type: array
+      optimizeCountSql:
+        type: boolean
+      pages:
+        type: integer
+      records:
+        items:
+          $ref: '#/definitions/question_vo.QuestionVO'
+        type: array
+      searchCount:
+        type: boolean
+      size:
+        type: integer
+      total:
+        type: integer
     type: object
   question_vo.QuestionVO:
     properties:
@@ -118,7 +163,7 @@ definitions:
         type: string
       userId:
         description: 创建用户 id
-        type: integer
+        type: string
       userVO:
         allOf:
         - $ref: '#/definitions/user_vo.UserVO'
@@ -160,6 +205,34 @@ definitions:
       userId:
         description: 管理员查询的是否可以用UserID来查询
         type: string
+    type: object
+  questionsubmit_vo.QueryQuestionSubmitVO:
+    properties:
+      MaxLimit:
+        type: integer
+      countId:
+        type: string
+      current:
+        type: integer
+      oders:
+        items:
+          additionalProperties: {}
+          type: object
+        type: array
+      optimizeCountSql:
+        type: boolean
+      pages:
+        type: integer
+      records:
+        items:
+          $ref: '#/definitions/questionsubmit_vo.QuestionSubmitVO'
+        type: array
+      searchCount:
+        type: boolean
+      size:
+        type: integer
+      total:
+        type: integer
     type: object
   questionsubmit_vo.QuestionSubmitVO:
     properties:
@@ -249,20 +322,6 @@ definitions:
       userRole:
         type: string
     type: object
-  vo.BaseResponse-array_questionsubmit_vo_QuestionSubmitVO:
-    properties:
-      code:
-        description: 响应码
-        type: integer
-      data:
-        description: 接口，表示具体信息
-        items:
-          $ref: '#/definitions/questionsubmit_vo.QuestionSubmitVO'
-        type: array
-      message:
-        description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
-        type: string
-    type: object
   vo.BaseResponse-bool:
     properties:
       code:
@@ -275,6 +334,19 @@ definitions:
         description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
         type: string
     type: object
+  vo.BaseResponse-question_vo_QueryQuestionVO:
+    properties:
+      code:
+        description: 响应码
+        type: integer
+      data:
+        allOf:
+        - $ref: '#/definitions/question_vo.QueryQuestionVO'
+        description: 接口，表示具体信息
+      message:
+        description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
+        type: string
+    type: object
   vo.BaseResponse-question_vo_QuestionVO:
     properties:
       code:
@@ -283,6 +355,19 @@ definitions:
       data:
         allOf:
         - $ref: '#/definitions/question_vo.QuestionVO'
+        description: 接口，表示具体信息
+      message:
+        description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
+        type: string
+    type: object
+  vo.BaseResponse-questionsubmit_vo_QueryQuestionSubmitVO:
+    properties:
+      code:
+        description: 响应码
+        type: integer
+      data:
+        allOf:
+        - $ref: '#/definitions/questionsubmit_vo.QueryQuestionSubmitVO'
         description: 接口，表示具体信息
       message:
         description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
@@ -310,7 +395,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/user_vo.UserVO'
+            $ref: '#/definitions/vo.BaseResponse-user_vo_UserVO'
         "401":
           description: Unauthorized
           schema:
@@ -412,6 +497,35 @@ paths:
       summary: 通过问题的Identity获取问题详情
       tags:
       - 问题
+  /api/question/list/page:
+    post:
+      parameters:
+      - description: query question info
+        in: body
+        name: queryInfo
+        required: true
+        schema:
+          $ref: '#/definitions/question_dto.QuestionQueryByPageRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/vo.BaseResponse-question_vo_QueryQuestionVO'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: 分页查询问题
+      tags:
+      - 问题
   /api/question/question_submit/do:
     post:
       parameters:
@@ -454,7 +568,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/vo.BaseResponse-array_questionsubmit_vo_QuestionSubmitVO'
+            $ref: '#/definitions/vo.BaseResponse-questionsubmit_vo_QueryQuestionSubmitVO'
         "401":
           description: Unauthorized
           schema:

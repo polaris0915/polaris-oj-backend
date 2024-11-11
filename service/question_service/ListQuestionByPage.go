@@ -1,18 +1,18 @@
-package questionsubmit_service
+package question_service
 
 import (
 	"errors"
 	"polaris-oj-backend/common"
-	"polaris-oj-backend/models/dto/questionsubmit_dto"
+	"polaris-oj-backend/models/dto/question_dto"
 	"polaris-oj-backend/models/vo"
-	"polaris-oj-backend/models/vo/questionsubmit_vo"
+	"polaris-oj-backend/models/vo/question_vo"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
 
 	"github.com/gin-contrib/sessions"
 )
 
 // 分页查询用户提交的问题
-func (s *Service) ListQuestionSubmitByPage(request *questionsubmit_dto.QuestionSubmitQueryRequest) (*questionsubmit_vo.QueryQuestionSubmitVO, error) {
+func (s *Service) ListQuestionByPage(request *question_dto.QuestionQueryByPageRequest) (*question_vo.QueryQuestionVO, error) {
 	// 首先判断session是否有效
 	session := sessions.Default(s.ctx)
 	// var loginUserInfo *utils.Claims
@@ -34,17 +34,11 @@ func (s *Service) ListQuestionSubmitByPage(request *questionsubmit_dto.QuestionS
 		currentPage = (int(request.Current) - 1) * pageSize
 	}
 	// TODO EMERGENCY: DTO需要重构
-	var allResults []*allModels.QuestionSubmit
-	query := s.db.Model(&allModels.QuestionSubmit{}).
-		Joins("User"). // 加载User关联时指定identity
-		Preload("Question").
-		Preload("Question.User").
-		Or("status = ?", request.Status)
-	if request.Language != "" {
-		query.Or("language = ?", request.Language)
-	}
-	if request.QuestionID != "" {
-		query.Or("questionId = ?", request.QuestionID)
+	var allResults []*allModels.Question
+	query := s.db.Model(&allModels.Question{}).
+		Preload("User")
+	if request.Identity != "" {
+		query.Or("identity = ?", request.Identity)
 	}
 	if request.UserID != "" {
 		query.Or("userId = ?", request.UserID)
@@ -66,12 +60,12 @@ func (s *Service) ListQuestionSubmitByPage(request *questionsubmit_dto.QuestionS
 		return nil, err
 	}
 
-	var responseVo vo.ResponVo[[]*allModels.QuestionSubmit] = new(questionsubmit_vo.QueryQuestionSubmitVO)
+	var responseVo vo.ResponVo[[]*allModels.Question] = new(question_vo.QueryQuestionVO)
 	if err = responseVo.GetResponseVo(allResults); err != nil {
 		return nil, err
 	}
-	allQueries, _ := responseVo.(*questionsubmit_vo.QueryQuestionSubmitVO)
+	allQueries, _ := responseVo.(*question_vo.QueryQuestionVO)
 	allQueries.Total = count
 
-	return responseVo.(*questionsubmit_vo.QueryQuestionSubmitVO), nil
+	return responseVo.(*question_vo.QueryQuestionVO), nil
 }

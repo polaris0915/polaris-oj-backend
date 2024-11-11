@@ -12,14 +12,11 @@ import (
 )
 
 // 添加问题
-func (s *QuestionService) AddQuestion(session sessions.Session, requestDto any, question *allModels.Question) error {
-	request, ok := requestDto.(*question_dto.QuestionAddRequest)
-	if !ok {
-		return errors.New("类型断言失败")
-	}
+func (s *Service) AddQuestion(request *question_dto.QuestionAddRequest) error {
 	// 首先经过中间件在controller层排除未登录的用户到达次接口
 	// 因此后面鉴权中间件加入之后就不再需要去校验用户是否登录，而是直接去取用户信息
 	// 但是用户信息拿到之后如果实效过期也是得返回登录错误
+	session := sessions.Default(s.ctx)
 	var userInfo *utils.Claims
 	var err error
 	if userInfo, err = common.GetLoginUser(session); err != nil {
@@ -32,6 +29,7 @@ func (s *QuestionService) AddQuestion(session sessions.Session, requestDto any, 
 		return errors.New("参数不正确")
 	}
 	//===============新字段的添加=========================
+	question := new(allModels.Question)
 	// 设置Identity
 	question.Identity = utils.GetUUID()
 	// 设置创建人Identity

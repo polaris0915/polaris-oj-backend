@@ -40,7 +40,7 @@ func Router() *gin.Engine {
 	api := r.Group("/api")
 	// get组
 	get := api.Group("/get")
-	get.GET("/user/login", usercontroller.GUserController.GetLoginUser)
+	get.GET("/user/login", usercontroller.GetLoginUser)
 	// -----------------------私有组的api----------------------
 	// 用户组
 	user := api.Group("/user")

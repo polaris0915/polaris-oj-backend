@@ -20,12 +20,9 @@ import (
 */
 // 目前只是开发测试基本的功能是否能够接通数据库
 // 更新问题
-func (s *QuestionService) UpdateQuestion(session sessions.Session, requestDto any, question *allModels.Question) error {
-	request, ok := requestDto.(*question_dto.QuestionUpdateRequest)
-	if !ok {
-		return errors.New("类型断言失败")
-	}
+func (s *Service) UpdateQuestion(request *question_dto.QuestionUpdateRequest) error {
 	// 获取当前登录用户
+	session := sessions.Default(s.ctx)
 	// var userInfo *utils.Claims
 	var err error
 	if _, err = common.GetLoginUser(session); err != nil {

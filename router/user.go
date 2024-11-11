@@ -8,9 +8,9 @@ import (
 
 // 定义用户所有的路由
 func UserAdd(group *gin.RouterGroup) {
-	group.POST("/login", usercontroller.GUserController.Login)
-	group.POST("/register", usercontroller.GUserController.AddUser)
-	group.POST("/my", usercontroller.GUserController.UpdateMyUser)
-	group.POST("/logout", usercontroller.GUserController.UserLogout)
-	group.POST("/delete", usercontroller.GUserController.DeleteUser)
+	group.POST("/login", usercontroller.Login)
+	group.POST("/register", usercontroller.AddUser)
+	group.POST("/my", usercontroller.UpdateMyUser)
+	group.POST("/logout", usercontroller.UserLogout)
+	group.POST("/delete", usercontroller.DeleteUser)
 }

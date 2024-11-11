@@ -18,7 +18,7 @@ import (
 // @Failure 403 {string} string "Forbidden"
 // @Failure 404 {string} string "Not Found"
 // @Router /api/user/logout [post]
-func (uc *UserController) UserLogout(c *gin.Context) {
+func UserLogout(c *gin.Context) {
 	// 00. 函数结束固定调用BaseResponse中调用Response
 	var response vo.BaseResponse[bool]
 	defer func() { // 使用闭包

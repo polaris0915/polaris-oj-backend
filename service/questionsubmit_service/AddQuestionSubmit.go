@@ -13,12 +13,9 @@ import (
 )
 
 // 添加问题
-func (s *QuestionSubmitService) AddQuestionSubmit(session sessions.Session, requestDto any, questionSubmit *allModels.QuestionSubmit) error {
-	request, ok := requestDto.(questionsubmit_dto.QuestionSubmitAddRequest)
-	if !ok {
-		return errors.New("类型断言失败")
-	}
+func (s *Service) AddQuestionSubmit(request *questionsubmit_dto.QuestionSubmitAddRequest) error {
 	// 首先判断session是否有效
+	session := sessions.Default(s.ctx)
 	var loginUserInfo *utils.Claims
 	var err error
 	if loginUserInfo, err = common.GetLoginUser(session); err != nil {
@@ -31,8 +28,8 @@ func (s *QuestionSubmitService) AddQuestionSubmit(session sessions.Session, requ
 		return errors.New("编程语言错误")
 	}
 	// 判断问题identity是否存在
-
-	if err = s.db.First(&allModels.QuestionSubmit{}, "identity = ?", request.QuestionID).Error; err != nil {
+	questionSubmit := &allModels.QuestionSubmit{}
+	if err = s.db.First(questionSubmit, "questionId = ?", request.QuestionID).Error; err != nil {
 		return errors.New("没有该问题")
 	}
 	//===============新字段的添加=========================

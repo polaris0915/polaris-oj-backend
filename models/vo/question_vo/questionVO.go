@@ -22,7 +22,7 @@ type QuestionVO struct {
 	JudgeConfig judgeconfig.JudgeConfig `json:"judgeConfig"` // 判题配置（json 对象）
 	ThumbNum    int                     `json:"thumbNum"`    // 点赞数
 	FavourNum   int                     `json:"favourNum"`   // 收藏数
-	UserID      int64                   `json:"userId"`      // 创建用户 id
+	UserID      string                  `json:"userId"`      // 创建用户 id
 	// TODO question: 这边时间的名字没有对应上，不知道会不会出问题
 	CreatedAt time.Time      `json:"createTime"` // 创建时间
 	UpdatedAt time.Time      `json:"updateTime"` // 更新时间

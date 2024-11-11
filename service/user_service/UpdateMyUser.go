@@ -12,12 +12,9 @@ import (
 )
 
 // TODO: 逻辑有问题
-func (s *UserService) UpdateMyUser(session sessions.Session, requestDto any, user *allModels.User) error {
-	request, ok := requestDto.(*user_dto.UserUpdateMyUserRequest)
-	if !ok {
-		return errors.New("类型断言失败")
-	}
+func (s *Service) UpdateMyUser(request *user_dto.UserUpdateMyUserRequest) error {
 	// 首先判断用户是否自己已经登录，如果没登录则返回
+	session := sessions.Default(s.ctx)
 	userInfo := new(utils.Claims)
 	var err error
 	if userInfo, err = common.GetLoginUser(session); err != nil {

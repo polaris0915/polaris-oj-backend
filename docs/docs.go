@@ -25,7 +25,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user_vo.UserVO"
+                            "$ref": "#/definitions/vo.BaseResponse-user_vo_UserVO"
                         }
                     },
                     "401": {
@@ -182,6 +182,51 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/question/list/page": {
+            "post": {
+                "tags": [
+                    "问题"
+                ],
+                "summary": "分页查询问题",
+                "parameters": [
+                    {
+                        "description": "query question info",
+                        "name": "queryInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/question_dto.QuestionQueryByPageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse-question_vo_QueryQuestionVO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/question/question_submit/do": {
             "post": {
                 "tags": [
@@ -248,7 +293,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/vo.BaseResponse-array_questionsubmit_vo_QuestionSubmitVO"
+                            "$ref": "#/definitions/vo.BaseResponse-questionsubmit_vo_QueryQuestionSubmitVO"
                         }
                     },
                     "401": {
@@ -608,6 +653,31 @@ const docTemplate = `{
                 }
             }
         },
+        "question_dto.QuestionQueryByPageRequest": {
+            "type": "object",
+            "properties": {
+                "current": {
+                    "type": "integer"
+                },
+                "identity": {
+                    "description": "可以由以下类别来查询",
+                    "type": "string"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "sortField": {
+                    "type": "string"
+                },
+                "sortOrder": {
+                    "type": "string"
+                },
+                "userId": {
+                    "description": "管理员查询的是否可以用UserID来查询",
+                    "type": "string"
+                }
+            }
+        },
         "question_dto.QuestionUpdateRequest": {
             "type": "object",
             "required": [
@@ -646,6 +716,48 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
+                }
+            }
+        },
+        "question_vo.QueryQuestionVO": {
+            "type": "object",
+            "properties": {
+                "MaxLimit": {
+                    "type": "integer"
+                },
+                "countId": {
+                    "type": "string"
+                },
+                "current": {
+                    "type": "integer"
+                },
+                "oders": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "optimizeCountSql": {
+                    "type": "boolean"
+                },
+                "pages": {
+                    "type": "integer"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/question_vo.QuestionVO"
+                    }
+                },
+                "searchCount": {
+                    "type": "boolean"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },
@@ -705,7 +817,7 @@ const docTemplate = `{
                 },
                 "userId": {
                     "description": "创建用户 id",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "userVO": {
                     "description": "创建题目人的信息",
@@ -766,6 +878,48 @@ const docTemplate = `{
                 "userId": {
                     "description": "管理员查询的是否可以用UserID来查询",
                     "type": "string"
+                }
+            }
+        },
+        "questionsubmit_vo.QueryQuestionSubmitVO": {
+            "type": "object",
+            "properties": {
+                "MaxLimit": {
+                    "type": "integer"
+                },
+                "countId": {
+                    "type": "string"
+                },
+                "current": {
+                    "type": "integer"
+                },
+                "oders": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "additionalProperties": {}
+                    }
+                },
+                "optimizeCountSql": {
+                    "type": "boolean"
+                },
+                "pages": {
+                    "type": "integer"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/questionsubmit_vo.QuestionSubmitVO"
+                    }
+                },
+                "searchCount": {
+                    "type": "boolean"
+                },
+                "size": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },
@@ -901,26 +1055,6 @@ const docTemplate = `{
                 }
             }
         },
-        "vo.BaseResponse-array_questionsubmit_vo_QuestionSubmitVO": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "description": "响应码",
-                    "type": "integer"
-                },
-                "data": {
-                    "description": "接口，表示具体信息",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/questionsubmit_vo.QuestionSubmitVO"
-                    }
-                },
-                "message": {
-                    "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
-                    "type": "string"
-                }
-            }
-        },
         "vo.BaseResponse-bool": {
             "type": "object",
             "properties": {
@@ -931,6 +1065,27 @@ const docTemplate = `{
                 "data": {
                     "description": "接口，表示具体信息",
                     "type": "boolean"
+                },
+                "message": {
+                    "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
+                    "type": "string"
+                }
+            }
+        },
+        "vo.BaseResponse-question_vo_QueryQuestionVO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "响应码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "接口，表示具体信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/question_vo.QueryQuestionVO"
+                        }
+                    ]
                 },
                 "message": {
                     "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
@@ -950,6 +1105,27 @@ const docTemplate = `{
                     "allOf": [
                         {
                             "$ref": "#/definitions/question_vo.QuestionVO"
+                        }
+                    ]
+                },
+                "message": {
+                    "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
+                    "type": "string"
+                }
+            }
+        },
+        "vo.BaseResponse-questionsubmit_vo_QueryQuestionSubmitVO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "响应码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "接口，表示具体信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/questionsubmit_vo.QueryQuestionSubmitVO"
                         }
                     ]
                 },
