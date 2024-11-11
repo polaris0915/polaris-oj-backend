@@ -1,0 +1,6 @@
+app:
+  env: dev
+  name: polaris-oj
+mysql:
+  MYSQL_DB_NAME: "polaris-oj"
+  MYSQL_DB_PASSWORD: "ALin0915="
