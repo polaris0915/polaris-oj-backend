@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"polaris-oj-backend/common"
-	"polaris-oj-backend/common/polaris_logger"
 	"polaris-oj-backend/config"
+	"polaris-oj-backend/polaris_logger"
 	"polaris-oj-backend/utils"
 
 	"github.com/gin-contrib/sessions"
