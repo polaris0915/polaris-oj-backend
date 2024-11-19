@@ -4,3 +4,11 @@ app:
 mysql:
   MYSQL_DB_NAME: "polaris-oj"
   MYSQL_DB_PASSWORD: "ALin0915="
+jwt:
+  validTime: 60
+  key: "polaris-oj"
+session:
+  SESSION_PAIRKEY: "polaris-oj-backend"
+log:
+  LogPath: "./common/polaris_logger"
+  LogContextKey: "user"

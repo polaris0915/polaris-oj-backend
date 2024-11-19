@@ -64,6 +64,7 @@
 
    ```shell
 openapi --input http://localhost:8000/swagger/doc.json --output ./generated --client axios
+npx openapi-typescript-codegen --input http://localhost:8000/swagger/doc.json --output ./generated --client axios
    ```
 
  

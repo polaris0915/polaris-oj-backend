@@ -1,39 +1,45 @@
 package test
 
 import (
-	"net/http"
+	"errors"
 	"testing"
 
-	"go.uber.org/zap"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-var Logger *zap.SugaredLogger
-
-func InitLogger() *zap.SugaredLogger {
-	logger, _ := zap.NewDevelopment()
-	return logger.Sugar()
+func inner() error {
+	return errors.New("seems we have an error here")
 }
 
-func SimpleFunc(url string) {
-	res, err := http.Get(url)
+func middle() error {
+	err := inner()
 	if err != nil {
-		Logger.Error(
-			"http get failed...",
-			zap.String("url: ", url),
-			zap.Error(err),
-		)
-	} else {
-		Logger.Info(
-			"get success",
-			zap.String("status: ", res.Status),
-			zap.String("url: ", url),
-		)
-		res.Body.Close()
+		return err
 	}
+	return nil
+}
+
+func outer() error {
+	err := middle()
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func TestZap(t *testing.T) {
-	Logger = InitLogger()
-	defer Logger.Sync()
-	SimpleFunc("http://www.baidudssd.com")
+	// zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
+	// 使用 lumberjack 实现日志文件的切分
+	log.Logger = zerolog.New(&lumberjack.Logger{
+		Filename:   "app.log",
+		MaxSize:    10,   // 每个日志文件的最大尺寸 (MB)
+		MaxBackups: 5,    // 保留旧日志文件的最大数量
+		MaxAge:     30,   // 保留旧日志文件的最大天数
+		Compress:   true, // 是否压缩旧日志
+	}).With().Caller().Timestamp().Logger()
+
+	err := outer()
+	log.Error().Err(err).Msg("是的")
 }

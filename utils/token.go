@@ -1,15 +1,15 @@
 package utils
 
 import (
-	"fmt"
-	"polaris-oj-backend/constant"
+	"errors"
+	"polaris-oj-backend/config"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
-// 密钥
-var jwtKey = []byte(constant.Key)
+// // 密钥
+// var jwtKey = []byte(config.Jwt.Key)
 
 type Claims struct {
 	Identity    string `json:"identity"`
@@ -21,7 +21,7 @@ type Claims struct {
 // 生成token
 func GetToken(ID string, UserAccount string, UserRole string) (string, error) {
 	// 有效期，时间有效期定义在package constant中
-	expirationTime := time.Now().Add(time.Duration(constant.ValidTime) * time.Minute)
+	expirationTime := time.Now().Add(time.Duration(config.Jwt.ValidTime) * time.Minute)
 	// fmt.Println("expiration: ", expirationTime)
 
 	claims := &Claims{
@@ -33,6 +33,8 @@ func GetToken(ID string, UserAccount string, UserRole string) (string, error) {
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	var jwtKey = []byte(config.Jwt.Key)
+
 	tokenString, err := token.SignedString(jwtKey)
 
 	if err != nil {
@@ -44,6 +46,8 @@ func GetToken(ID string, UserAccount string, UserRole string) (string, error) {
 // 校验token
 func ValidateToken(tokenString string) (*Claims, error) {
 	userClaims := &Claims{}
+	var jwtKey = []byte(config.Jwt.Key)
+
 	token, err := jwt.ParseWithClaims(tokenString, userClaims, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
@@ -51,7 +55,7 @@ func ValidateToken(tokenString string) (*Claims, error) {
 		return nil, err
 	}
 	if !token.Valid {
-		return nil, fmt.Errorf("ValidateToken Failed")
+		return nil, errors.New("ValidateToken Failed")
 	}
 	return userClaims, nil
 }

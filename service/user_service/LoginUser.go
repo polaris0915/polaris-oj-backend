@@ -2,7 +2,6 @@ package user_service
 
 import (
 	"errors"
-
 	"polaris-oj-backend/common"
 	"polaris-oj-backend/models/dto/user_dto"
 	"polaris-oj-backend/models/enums/userrole_enum"
@@ -46,6 +45,5 @@ func (s *Service) LoginUser(request *user_dto.UserLoginRequest) (*user_vo.UserVO
 	if err := responseVo.GetResponseVo(user); err != nil {
 		return nil, err
 	}
-
 	return responseVo.(*user_vo.UserVO), nil
 }

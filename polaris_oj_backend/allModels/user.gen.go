@@ -27,6 +27,7 @@ type User struct {
 	CreatedAt    time.Time      `gorm:"column:created_at;type:datetime;not null;comment:创建时间" json:"created_at"`                                                                     // 创建时间
 	UpdatedAt    time.Time      `gorm:"column:updated_at;type:datetime;not null;comment:更新时间" json:"updated_at"`                                                                     // 更新时间
 	DeletedAt    gorm.DeletedAt `gorm:"column:deleted_at;type:datetime;comment:删除时间" json:"deleted_at"`                                                                              // 删除时间
+	UserEmail    string         `gorm:"column:userEmail;type:varchar(128);uniqueIndex:unique_userEmail,priority:1;comment:用户邮箱" json:"userEmail"`                                    // 用户邮箱
 }
 
 // TableName User's table name

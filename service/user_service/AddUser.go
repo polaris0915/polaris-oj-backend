@@ -2,6 +2,7 @@ package user_service
 
 import (
 	"errors"
+
 	"polaris-oj-backend/models/dto/user_dto"
 	"polaris-oj-backend/models/enums/userrole_enum"
 	"polaris-oj-backend/polaris_oj_backend/allModels"
@@ -33,7 +34,7 @@ func (s *Service) AddUser(request *user_dto.UserAddRequest) error {
 		return err
 	}
 	var cnt int64
-	if err := s.db.Model(user).Where("userAccount = ?", user.UserAccount).Count(&cnt).Error; err != nil || cnt > 0 {
+	if err := s.db.Model(user).Where("userAccount = ?", request.UserAccount).Count(&cnt).Error; err != nil || cnt > 0 {
 		return errors.New("账号已存在")
 	}
 	//===============新字段的添加=========================
@@ -47,3 +48,12 @@ func (s *Service) AddUser(request *user_dto.UserAddRequest) error {
 	}
 	return nil
 }
+
+/*
+	一个可行的错误处理以及日志输出的构想：
+		错误的输出等级
+		错误信息
+		错误发生在什么地方
+		处理谁的业务的时候发生的错误
+		myError.New(level, errInfo, )
+*/

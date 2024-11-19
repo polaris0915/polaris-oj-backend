@@ -2,6 +2,7 @@ package common
 
 import (
 	"errors"
+	"fmt"
 	"polaris-oj-backend/models/enums/userrole_enum"
 	"polaris-oj-backend/utils"
 
@@ -12,6 +13,7 @@ func SetCookies(session sessions.Session, key, value string) error {
 	session.Set(key, value) // 设置 session 中的值
 	err := session.Save()   // 保存 session
 	if err != nil {
+		fmt.Println(err.Error())
 		return errors.New("系统错误: cookie无法获取")
 	}
 	return nil
@@ -32,11 +34,12 @@ func ParseUserInfoByToken(token interface{}) interface{} {
 	return userInfo
 }
 
+// 根据session的token解析当前请求的用户
 func GetLoginUser(session sessions.Session) (*utils.Claims, error) {
 	stringToken := session.Get(userrole_enum.USER_LOGIN_STATE) // 获取用户
 	userInfo, ok := ParseUserInfoByToken(stringToken).(*utils.Claims)
 	if !ok {
-		return nil, errors.New("未登录或用户信息过期，请重新登录")
+		return userInfo, errors.New("未登录或用户信息过期，请重新登录")
 	}
 	return userInfo, nil
 }
