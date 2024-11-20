@@ -1,2 +1,43 @@
 {"Level":"ERROR","Time":"2024-11-19T19:10:33.633+0800","Caller":"/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/user_service/LoginUser.go:50","Msg":"登录失败","ip":"127.0.0.1","userIdentity":"a991c98c-d298-4f61-b706-e0efa22bc391","userAccount":"polaris"}
 {"Level":"ERROR","Time":"2024-11-19T20:15:31.661+0800","Caller":"/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/common/polaris_logger/log.go:114","Msg":"账号或密码错误","ip":"127.0.0.1"}
+{"Level":"ERROR","Time":"2024-11-20T12:18:51.647+0800","Caller":"/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:43","Msg":"file size exceeds limit","context":"default-standard"}
+{"Level":"ERROR","Time":"2024-11-20T12:18:51.648+0800","Caller":"/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:11","Msg":"file size exceeds limit","ip":"127.0.0.1"}
+2024-11-20T12:27:48.144+0800	[31mERROR[0m	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:43	file size exceeds limit	{"context": "default-standard"}
+2024-11-20T12:27:48.145+0800	[31mERROR[0m	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:11	file size exceeds limit	{"ip": "127.0.0.1"}
+2024-11-20T12:29:39.008+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:43	file size exceeds limit	{"context": "default-standard"}
+2024-11-20T12:29:39.008+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:11	file size exceeds limit	{"ip": "127.0.0.1"}
+2024-11-20T12:31:25.100+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:43	|file size exceeds limit|	{"context": "default-standard"}
+2024-11-20T12:31:25.101+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:11	|file size exceeds limit|	{"ip": "127.0.0.1"}
+2024-11-20T12:33:01.625+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:43	===|file size exceeds limit|===	{"context": "default-standard"}
+2024-11-20T12:33:01.625+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:11	===|file size exceeds limit|===	{"ip": "127.0.0.1"}
+2024-11-20T12:38:06.930+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:43	❌file size exceeds limit❌	{"context": "default-standard"}
+2024-11-20T12:38:06.933+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:11	❌file size exceeds limit❌	{"ip": "127.0.0.1"}
+2024-11-20T13:20:11.677+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:44	file size exceeds limit	{"context": "default-standard"}
+2024-11-20T13:20:11.680+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:12	file size exceeds limit	{"ip": "127.0.0.1"}
+2024-11-20T13:23:44.712+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:44	file size exceeds limit	{"context": "default-standard"}
+2024-11-20T13:23:44.713+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:12	file size exceeds limit	{"ip": "127.0.0.1", "userIdentity": "a991c98c-d298-4f61-b706-e0efa22bc391", "userAccount": "polaris"}
+2024-11-20T13:28:44.873+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:44	file size exceeds limit	{"context": "default-standard"}
+2024-11-20T13:28:44.873+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:12	file size exceeds limit	{"ip": "127.0.0.1", "userIdentity": "a991c98c-d298-4f61-b706-e0efa22bc391", "userAccount": "polaris"}
+2024-11-20T13:29:17.174+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:44	file size exceeds limit	{"context": "default-standard"}
+2024-11-20T13:29:17.174+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:12	file size exceeds limit	{"ip": "127.0.0.1"}
+2024-11-20T13:34:31.165+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:27	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:26:45.420+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:56	file size exceeds limit	{"context": "default-standard"}
+2024-11-20T15:26:45.421+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:73	file size exceeds limit	{"ip": "127.0.0.1"}
+2024-11-20T15:26:45.421+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:53	file size exceeds limit	{"ip": "127.0.0.1"}
+2024-11-20T15:29:26.085+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:89	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:29:26.086+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:53	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:35:29.751+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:89	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:35:29.752+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:52	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:35:39.204+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:89	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:35:39.204+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/uploadFile.go:52	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:35:51.859+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/user_service/UpdateAvatar.go:15	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:35:51.860+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:89	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:35:51.860+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/user_service/UpdateAvatar.go:23	未登录	{"ip": "127.0.0.1"}
+2024-11-20T15:41:47.991+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/user_service/UpdateAvatar.go:32	sql: converting argument $3 type: unsupported type allModels.User, a struct	{"ip": "127.0.0.1", "userIdentity": "2ce5f943-8612-4edc-a39b-871e62f08357", "userAccount": "liuze"}
+2024-11-20T15:45:32.482+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/user_service/UpdateAvatar.go:31	sql: converting argument $3 type: unsupported type allModels.User, a struct	{"ip": "127.0.0.1", "userIdentity": "2ce5f943-8612-4edc-a39b-871e62f08357", "userAccount": "liuze"}
+2024-11-20T16:45:54.382+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/user_service/UpdateAvatar.go:17	未登录	{"ip": "127.0.0.1"}
+2024-11-20T16:45:54.383+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:89	未登录	{"ip": "127.0.0.1"}
+2024-11-20T16:45:54.383+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/user_service/UpdateAvatar.go:25	未登录	{"ip": "127.0.0.1"}
+2024-11-20T18:30:47.246+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/user_service/UpdateAvatar.go:17	未登录	{"ip": "::1"}
+2024-11-20T18:30:47.250+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/file_service/file.go:89	未登录	{"ip": "::1"}
+2024-11-20T18:30:47.250+0800	ERROR	/Users/alin-youlinlin/Desktop/polaris-all_projects/oj/polaris-oj-backend/service/user_service/UpdateAvatar.go:25	未登录	{"ip": "::1"}

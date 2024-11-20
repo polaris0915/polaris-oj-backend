@@ -17,6 +17,7 @@ type UserVO struct {
 	UserRole    string    `json:"userRole"`
 	CreatedAt   time.Time `json:"createTime"`
 	UpdatedAt   time.Time `json:"updateTime"`
+	UserEmail   string    `json:"userEmail"`
 }
 
 func (u *UserVO) GetValidator() *validator.Validate {

@@ -33,12 +33,13 @@ var Logger *zap.Logger = initLogger(true)
 func initLogger(isDev bool) *zap.Logger {
 	// 日志编码器配置
 	encoderConfig := zapcore.EncoderConfig{
-		TimeKey:        "Time",
-		LevelKey:       "Level",
-		NameKey:        "Logger",
-		CallerKey:      "Caller",
-		MessageKey:     "Msg",
-		StacktraceKey:  "Stacktrace",
+		TimeKey:       "Time",
+		LevelKey:      "Level",
+		NameKey:       "Logger",
+		CallerKey:     "Caller",
+		MessageKey:    "Msg",
+		StacktraceKey: "Stacktrace",
+		// EncodeLevel:   zapcore.CapitalColorLevelEncoder, // 使用颜色编码日志级别
 		EncodeLevel:    zapcore.CapitalLevelEncoder,   // 日志级别大写
 		EncodeTime:     zapcore.ISO8601TimeEncoder,    // 时间格式
 		EncodeDuration: zapcore.StringDurationEncoder, // 持续时间格式
@@ -46,7 +47,15 @@ func initLogger(isDev bool) *zap.Logger {
 	}
 
 	// 创建日志编码器
-	encoder := zapcore.NewJSONEncoder(encoderConfig)
+	var encoder zapcore.Encoder
+	if isDev {
+		encoder = zapcore.NewConsoleEncoder(encoderConfig) // 控制台友好格式
+	} else {
+		encoder = zapcore.NewJSONEncoder(encoderConfig) // JSON 格式
+	}
+
+	// // 创建日志编码器
+	// encoder := zapcore.NewJSONEncoder(encoderConfig)
 
 	// 创建日志文件写入器
 	logAllFile, _ := os.OpenFile(config.Log.LogPath+"/log_all.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
@@ -79,7 +88,7 @@ func initLogger(isDev bool) *zap.Logger {
 	combinedCore := zapcore.NewTee(cores...)
 
 	// 创建 Logger
-	logger := zap.New(combinedCore, zap.AddCaller())
+	logger := zap.New(combinedCore, zap.AddCaller(), zap.AddCallerSkip(1))
 
 	// 替换全局 Logger（可选）
 	zap.ReplaceGlobals(logger)

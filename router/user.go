@@ -13,4 +13,5 @@ func UserAdd(group *gin.RouterGroup) {
 	group.POST("/my", usercontroller.UpdateMyUser)
 	group.POST("/logout", usercontroller.UserLogout)
 	group.POST("/delete", usercontroller.DeleteUser)
+	group.POST("/update-avatar", usercontroller.UpdateAvatar)
 }

@@ -4,6 +4,52 @@
         "contact": {}
     },
     "paths": {
+        "/api/file/upload": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "tags": [
+                    "文件"
+                ],
+                "summary": "上传文件",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "File to upload",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse-file_vo_FileVO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/get/user/login": {
             "get": {
                 "tags": [
@@ -564,6 +610,52 @@
                     }
                 }
             }
+        },
+        "/api/user/update-avatar": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "tags": [
+                    "用户"
+                ],
+                "summary": "用户更新头像",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "File to upload",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/vo.BaseResponse-user_vo_UserVO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -574,6 +666,14 @@
             ],
             "properties": {
                 "identity": {
+                    "type": "string"
+                }
+            }
+        },
+        "file_vo.FileVO": {
+            "type": "object",
+            "properties": {
+                "fileUrl": {
                     "type": "string"
                 }
             }
@@ -1007,7 +1107,7 @@
         "user_dto.UserUpdateMyUserRequest": {
             "type": "object",
             "properties": {
-                "userAvatar": {
+                "userEmail": {
                     "type": "string"
                 },
                 "userName": {
@@ -1054,6 +1154,27 @@
                 "data": {
                     "description": "接口，表示具体信息",
                     "type": "boolean"
+                },
+                "message": {
+                    "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",
+                    "type": "string"
+                }
+            }
+        },
+        "vo.BaseResponse-file_vo_FileVO": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "响应码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "接口，表示具体信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/file_vo.FileVO"
+                        }
+                    ]
                 },
                 "message": {
                     "description": "请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]",

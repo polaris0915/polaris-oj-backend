@@ -27,7 +27,7 @@ func (b *BaseResponse[T]) Response(c *gin.Context, status int) {
 // | 表示取并集
 // 多行之间取交集
 type mysqlModels interface {
-	~*allModels.User | ~*allModels.Question | ~*allModels.QuestionSubmit | []*allModels.User | []*allModels.Question | []*allModels.QuestionSubmit
+	~*allModels.User | ~*allModels.Question | ~*allModels.QuestionSubmit | []*allModels.User | []*allModels.Question | []*allModels.QuestionSubmit | string
 }
 
 type ResponVo[T mysqlModels] interface {

@@ -10,5 +10,5 @@ jwt:
 session:
   SESSION_PAIRKEY: "polaris-oj-backend"
 log:
-  LogPath: "./common/polaris_logger"
+  LogPath: "./polaris_logger"
   LogContextKey: "user"

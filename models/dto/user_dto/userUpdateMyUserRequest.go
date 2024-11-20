@@ -9,8 +9,8 @@ import (
 
 type UserUpdateMyUserRequest struct {
 	UserName    string `json:"userName"`
-	UserAvatar  string `json:"userAvatar"`
 	UserProfile string `json:"userProfile"`
+	UserEmail   string `json:"userEmail"`
 }
 
 func (u *UserUpdateMyUserRequest) GetValidator() *validator.Validate {

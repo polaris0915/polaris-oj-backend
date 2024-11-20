@@ -32,6 +32,7 @@ func Router() *gin.Engine {
 	// })
 	r.Use(sessions.Sessions(userrole_enum.USER_LOGIN_STATE, store))
 
+	r.Use(middleware.GetUserMiddleware())
 	// 跨域中间件配置以及日志中间件
 	r.Use(middleware.Cors(), middleware.LogMiddleware())
 
@@ -53,6 +54,10 @@ func Router() *gin.Engine {
 	// 管理员组
 	admin := r.Group("/admin")
 	AdminAdd(admin)
+
+	// 管理员组
+	file := api.Group("/file")
+	FileAdd(file)
 
 	return r
 }

@@ -6,6 +6,11 @@ definitions:
     required:
     - identity
     type: object
+  file_vo.FileVO:
+    properties:
+      fileUrl:
+        type: string
+    type: object
   judgecase.JudgeCase:
     properties:
       input:
@@ -298,7 +303,7 @@ definitions:
     type: object
   user_dto.UserUpdateMyUserRequest:
     properties:
-      userAvatar:
+      userEmail:
         type: string
       userName:
         type: string
@@ -330,6 +335,19 @@ definitions:
       data:
         description: 接口，表示具体信息
         type: boolean
+      message:
+        description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
+        type: string
+    type: object
+  vo.BaseResponse-file_vo_FileVO:
+    properties:
+      code:
+        description: 响应码
+        type: integer
+      data:
+        allOf:
+        - $ref: '#/definitions/file_vo.FileVO'
+        description: 接口，表示具体信息
       message:
         description: 请求结果[发生错误则是错误信息，如果没有错误则是SUCCESS.Code的值]
         type: string
@@ -389,6 +407,36 @@ definitions:
 info:
   contact: {}
 paths:
+  /api/file/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/vo.BaseResponse-file_vo_FileVO'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: 上传文件
+      tags:
+      - 文件
   /api/get/user/login:
     get:
       responses:
@@ -749,6 +797,36 @@ paths:
           schema:
             type: string
       summary: 用户注册
+      tags:
+      - 用户
+  /api/user/update-avatar:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: File to upload
+        in: formData
+        name: file
+        required: true
+        type: file
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/vo.BaseResponse-user_vo_UserVO'
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "403":
+          description: Forbidden
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: 用户更新头像
       tags:
       - 用户
 swagger: "2.0"

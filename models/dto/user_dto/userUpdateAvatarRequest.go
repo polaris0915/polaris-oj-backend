@@ -1,4 +1,4 @@
-package file_dto
+package user_dto
 
 import (
 	"mime/multipart"
@@ -6,10 +6,10 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type FileUploadRequest struct {
+type UserUpdateAvatarRequest struct {
 	File *multipart.FileHeader `form:"file" binding:"required"`
 }
 
-func (u *FileUploadRequest) GetValidator() *validator.Validate {
+func (u *UserUpdateAvatarRequest) GetValidator() *validator.Validate {
 	return validator.New()
 }
